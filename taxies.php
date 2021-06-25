@@ -94,7 +94,7 @@
                         ?>
                         <table id="tableid" class="table table-bordered table-dark">
                             <thead>
-                                <tr>
+                                <tr  style="color:orange";>
                                     <th scope="col">Name</th>
                                     <th scope="col">Surname</th>
                                     <th scope="col">Phone</th>
@@ -114,7 +114,7 @@
                                 foreach($query_run as $row){
                         ?>
                             <tbody>
-                                <tr style="color:orange";>
+                                <tr>
                                     <td> <?php echo $row['first_name']; ?> </td>
                                     <td> <?php echo $row['surname']; ?> </td>
                                     <td> <?php echo $row['phone']; ?> </td>
