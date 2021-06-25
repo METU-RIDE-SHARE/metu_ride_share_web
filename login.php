@@ -26,7 +26,7 @@
 
 	require('database.php');
 
-    
+    session_start();    
     if (isset($_POST['login']))
     {
 		$metuMail = $_POST['metu_mail'];
@@ -43,6 +43,7 @@
 		}
 		else
 		{
+			$_SESSION['currentUser'] = $metuMail;
 			echo "<div class='container p-3' style='width:520px;'>
 							<div class='panel panel-danger'>
 								<div class='panel-heading'>Signing in successfull!</div>
