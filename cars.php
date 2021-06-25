@@ -63,7 +63,9 @@
 				</div>
 			</div>
 		</nav>
-		
+		<div class="container" style="background-color:black; margin-top:20px; margin-bottom:20px;">
+			<h1 style="color:white; text-align:center;"> METU RIDE SHARE </h1>
+		</div>
 </head>
 <body>
         <div class="container">
