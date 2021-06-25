@@ -63,7 +63,9 @@
 				</div>
 			</div>
 		</nav>
-		
+		<div class="container" style="background-color:black; margin-top:20px; margin-bottom:20px;">
+			<h1 style="color:white; text-align:center;"> METU RIDE SHARE </h1>
+		</div>
 </head>
 <body>
         <div class="container">
@@ -94,7 +96,7 @@
                         ?>
                         <table id="tableid" class="table table-bordered table-dark">
                             <thead>
-                                <tr>
+                                <tr style="color:orange";>
                                     <th scope="col">Owner ID</th>
                                     <th scope="col">Owner Name</th>
                                     <th scope="col">Owner Surname</th>
