@@ -7,6 +7,10 @@
     <title>Reservatio Requests</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
+
+	<div class="container" style="background-color:black; margin-top:20px; margin-bottom:20px;">
+		<h1 style="color:white; text-align:center;"> METU RIDE SHARE </h1>
+	</div>
 </head>
 <body>
         <!-- success modal -->
@@ -45,7 +49,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger" role="alert">
-                        You data has NOT been saved.
+                        Your data has NOT been saved.
                     </div>
                 </div>
                 <div class="modal-footer">
