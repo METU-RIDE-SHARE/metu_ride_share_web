@@ -13,7 +13,7 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+	
 
 <div class="p-5 text-center" style="background-color:black;">
     <h1 style="color:white;"> METU RIDE SHARE </h1>
@@ -44,9 +44,15 @@
 		else
 		{
 			$row = mysqli_fetch_assoc($allusers);
-			$_SESSION['currentUserID'] = $row['id'];
 			$_SESSION['currentUserMail'] = $metuMail;
-			
+			$_SESSION['currentUserID'] = $row['id'];
+			$_SESSION['currentUserFName'] = $row['first_name'];
+			$_SESSION['currentUserSName'] = $row['surname'];
+			$_SESSION['currentUserPhone'] = $row['phone'];
+			$_SESSION['currentUserFB'] = $row['facebook'];
+			$_SESSION['currentUserWhats'] = $row['WhatsApp'];
+
+
 			echo "<div class='container p-3' style='width:520px;'>
 							<div class='panel panel-danger'>
 								<div class='panel-heading'>Signing in successfull!</div>
@@ -99,11 +105,3 @@
 </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
