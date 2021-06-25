@@ -43,7 +43,10 @@
 		}
 		else
 		{
-			$_SESSION['currentUser'] = $metuMail;
+			$row = mysqli_fetch_assoc($allusers);
+			$_SESSION['currentUserID'] = $row['id'];
+			$_SESSION['currentUserMail'] = $metuMail;
+			
 			echo "<div class='container p-3' style='width:520px;'>
 							<div class='panel panel-danger'>
 								<div class='panel-heading'>Signing in successfull!</div>
