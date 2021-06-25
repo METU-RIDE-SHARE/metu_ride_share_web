@@ -56,6 +56,32 @@
                                         echo "Query is not performed successfully.";
                                     }
                                 }
+
+                                if(isset($_GET["user_id"])){
+                                    $user_id = $_GET["user_id"];
+                                    
+
+                                    $query = "  SELECT * FROM metu_users mu
+                                                WHERE mu.id = '$user_id';";
+                                    $query_run = mysqli_query($connection, $query);
+                                    if($query_run)  {
+                                        $row = $query_run -> fetch_array(MYSQLI_ASSOC);  
+                                        if($row){
+                                            echo "<p><strong>Name: </strong>". $row['first_name']."</p>";
+                                            echo "<p><strong>Surname: </strong>". $row['surname']."</p>";
+                                            echo "<p><strong>Phone: </strong>". $row['phone']."</p>";
+                                            echo "<p><strong>Facebook: </strong>". $row['facebook']."</p>";
+                                            echo "<p><strong>WhasApp: </strong>". $row['WhatsApp']."</p>";
+                                            echo "<p><strong>rating: </strong>". $row['rating']."</p>";
+                                            echo "<p><strong>not reviews: </strong>". $row['no_review']."</p>";
+                                        }else{
+                                            echo "the user is not found!";
+                                        }
+                                    }
+                                    else{
+                                        echo "Query is not performed successfully.";
+                                    }
+                                }
                             ?>
 
                         </div>

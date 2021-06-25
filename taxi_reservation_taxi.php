@@ -302,7 +302,7 @@
                 console.log(data);
 
                 var reservation_id = data[0];
-                window.location.href = "./user_profile_taxi.php?reservation_id=" + reservation_id;
+                window.location.href = "./user_profile_noedit.php?reservation_id=" + reservation_id;
         });
 
 
