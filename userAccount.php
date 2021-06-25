@@ -4,12 +4,12 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+		
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="taxi_reservation_user" content="width=device-width, initial-scale=1.0">
         <title>taxi reservation for users</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css"> -->
-		
+        
 		<!-- Navigation -->
 		<nav class="navbar navbar-expand-lg navbar-light static-top" style="background-color:#00C0CE;">
 			<div class="container">
@@ -56,6 +56,7 @@
 						<li class="nav-item">
 							<a class="nav-link" href="#">sss</a>
 						</li>
+						
 						<li class="nav-item">
 							<a class="nav-link" href="userAccount.php"><img src="pictures/person-circle.svg" class="img-fluid " alt=""></a>
 						</li>
@@ -78,7 +79,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Profile Updated</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -101,7 +102,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Profile Update Failed!</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -119,79 +120,53 @@
         </div>
     
 
-        <!-- ADD TAXI RESERVATION (Bootstrap Modal) -->
-        <div class="modal fade" id="add_reservation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Taxi Reservation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="./includes/insert_taxi_reservation.inc.php" method="POST">
-                    <div class="modal-body">
-                        <div class="form_group">
-                            <label class="form-label">Departure</label>
-                            <input type="text" name="departure" class="form-control" placeholder="Enter the Departure City">
-                        </div>
-
-                        <div class="form_group">
-                            <label class="form-label">Destination</label>
-                            <input type="text" name="destination" class="form-control" placeholder="Enter the Destination City">
-                        </div>
-                        
-                        
-                        <div class="form_group">
-                            <label class="form-label">Date and Time</label>
-                            <input type="datetime-local" name="date_time" class="form-control" placeholder="Enter the the date and time">
-                            <!-- div id="date_time_help" class="form-text">Enter the data and time in this format: "yyyy-mm-dd hh:mm".</div-->
-                        </div>
-                        
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" name="insert_taxi_reservation_b"class="btn btn-primary">Save Reservation</button>
-                    </div>
-                </form>
-                </div>
-            </div>
-        </div>
-
         <!-- ################################################################################################################################## -->
         <!-- EDIT TAXI RESERVATION (Bootstrap Modal) -->
-        <div class="modal fade" id="edit_reservation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="edit_profile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Taxi Reservation</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="./includes/update_taxi_reservation.inc.php" method="POST">
+                <form action="./includes/update_user_account.php" method="POST">
                     <div class="modal-body">
-
                         <div class="form_group">
-                            <label class="form-label">Departure</label>
-                            <input type="text" name="departure" id="departure" class="form-control" placeholder="Enter the Departure City">
+                            <label class="form-label">METU MAIL</label>
+                            <input readonly type="text" name="metu_mail" class="form-control" value="<?php echo $_SESSION['currentUserMail']?>" >
                         </div>
 
                         <div class="form_group">
-                            <label class="form-label">Destination</label>
-                            <input type="text" name="destination" id="destination" class="form-control" placeholder="Enter the Destination City">
+                            <label class="form-label">First Name</label>
+                            <input type="text" name="firstname" class="form-control" value="<?php echo $_SESSION['currentUserFName']?>">
                         </div>
                         
-                        <div class="form_group">
-                            <label class="form-label">Date and Time</label>
-                            <input type="datetime-local" name="date_time" id="dateTime" class="form-control" placeholder="Enter the the date and time">
-                            <!-- div id="date_time_help" class="form-text">Enter the data and time in this format: "yyyy-mm-dd hh:mm".</div-->
+						<div class="form_group">
+                            <label class="form-label">Surname</label>
+                            <input type="text" name="surname" class="form-control" value="<?php echo $_SESSION['currentUserSName']?>">
                         </div>
+						
+						<div class="form_group">
+                            <label class="form-label">Phone</label>
+                            <input type="text" name="phone" class="form-control" value="<?php echo $_SESSION['currentUserPhone']?>">
+                        </div>
+						
+						<div class="form_group">
+                            <label class="form-label">Facebook</label>
+                            <input type="text" name="facebook" class="form-control" value="<?php echo $_SESSION['currentUserFB']?>">
+                        </div>
+						
+						<div class="form_group">
+                            <label class="form-label">WhatsApp</label>
+                            <input type="text" name="whatsapp" class="form-control" value="<?php echo $_SESSION['currentUserWhats']?>">
+                        </div>
+						
                         
-                        <!-- the id of the reservation which is hidden to the user -->
-                        <input type="hidden" name="update_reservation_id" id="update_reservation_id"/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" name="update_taxi_reservation_b"class="btn btn-primary">Update Reservation</button>
+                        <button type="submit" name="update_account"class="btn btn-primary">Save</button>
                     </div>
-                    
                 </form>
                 </div>
             </div>
@@ -202,7 +177,7 @@
             <div class="jumbotrom">
 
                 <div class="card">
-                    <h2> Your Taxi Reservations</h2>
+                    <h2>  Your Information</h2>
                 </div>
 
                 <div class="card">
@@ -210,8 +185,8 @@
                         <!-- button type="button" class="btn btn-primary">Present Reservations</button -->
 
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_reservation">
-                            Add Taxi Reservation
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_profile">
+                            Edit Profile
                         </button>
 
                     </div>            
@@ -234,34 +209,21 @@
                             //current data and time
                             $current_date = date('y-m-d h:i:s');
 
-                                
-                            // $query = "  SELECT tr.Id, tr.datetime, tr.location, tr.destination, tr.status
-                            //             FROM taxi_reservation tr
-                            //             INNER JOIN metu_users mu
-                            //                 ON tr.creator_id = mu.id
-                            //             WHERE tr.creator_id = $current_metu_user_id
-                            //                 AND datetime > '$current_date'
-                            //             ORDER BY tr.datetime DESC;";
-
-                            $query = "  SELECT tr.Id, tr.datetime, tr.location, tr.destination, tr.status
-                                        FROM taxi_reservation tr
-                                        INNER JOIN metu_users mu
-                                            ON tr.creator_id = mu.id
-                                        WHERE tr.creator_id = $current_metu_user_id
+                            $query = "  SELECT *
+                                        FROM metu_users
+                                        WHERE id = $current_metu_user_id
                                         ";
                             $query_run = mysqli_query($connection, $query);
                         ?>
                         <table id="tableid" class="table table-bordered table-dark">
                             <thead>
                                 <tr style="color:orange";>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Departure</th>
-                                    <th scope="col">Destination</th>
-                                    <th scope="col">Date and Time</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Edit</th>
-                                    <th scope="col">Show Requests</th>
-                                    
+                                    <th scope="col">METU Mail</th>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">Facebook</th>
+                                    <th scope="col">WhatsApp</th>
                                 </tr>
                             </thead>
                         <?php
@@ -270,17 +232,12 @@
                         ?>
                             <tbody>
                                 <tr>
-                                    <td> <?php echo $row['Id']; ?> </td>
-                                    <td> <?php echo $row['location']; ?> </td>
-                                    <td> <?php echo $row['destination']; ?> </td>
-                                    <td> <?php echo $row['datetime']; ?> </td>
-                                    <td> <?php echo $row['status']; ?> </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary edit_btn"> EDIT </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary show_request_btn"> Requests </button>
-                                    </td>
+                                    <td> <?php echo $row['metu_mail']; ?> </td>
+                                    <td> <?php echo $row['first_name']; ?> </td>
+                                    <td> <?php echo $row['surname']; ?> </td>
+                                    <td> <?php echo $row['phone']; ?> </td>
+                                    <td> <?php echo $row['facebook']; ?> </td>
+									<td> <?php echo $row['WhatsApp']; ?> </td>
                                 </tr>
                             </tbody>
                         <?php       
@@ -301,55 +258,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
-
-    
-    <!-- <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script> -->
-
-    <!-- <script>
-        $(document).ready(function() {
-            $('#tableid').DataTable();
-        } );
-    </script> -->
-
-    <script>
-    $(document).ready(function(){
-        $('.edit_btn').on('click', function(){
-            $('#edit_reservation').modal('show');
-                $tr = $(this).closest('tr');
-                var data = $tr.children("td").map(function(){
-                    return $(this).text();
-                }).get();
-
-                console.log(data);
-
-                $('#update_reservation_id').val(data[0])
-                $('#departure').val(data[1]);
-                $('#destination').val(data[2]);
-
-                
-                var htmlLocalDate = data[3];
-                var correct_format = htmlLocalDate.substring(1 ,htmlLocalDate.length-1).replace(" ", "T");
-        
-                console.log(correct_format);
-                $('#dateTime').val(correct_format);
-        });
-
-        $('.show_request_btn').on('click', function(){
-            $tr = $(this).closest('tr');
-                var data = $tr.children("td").map(function(){
-                    return $(this).text();
-                }).get();
-
-                console.log(data);
-
-                var reservation_id = data[0];
-                window.location.href = "./reservation_request_user.php?reservation_id=" + reservation_id;
-        });
-
-
-    });
-    </script>
 
 
 <?php
