@@ -14,6 +14,7 @@
         
         $taxi_id = $_POST["taxi_id"];
         $reservation_id = $_POST["reservation_id"];
+        echo "this is reservation id coming in:  ".$reservation_id."finished    ";
         $status = $_POST["status_radio_btn"];
     
         $query = "  UPDATE reservation_request 
@@ -22,31 +23,30 @@
                           AND
                           taxi_id = $taxi_id;";
         $query_run = mysqli_query($connection, $query);
+        
 
-        if($query_run){
-            if($status == 'Accepted'){
-                $query2 = " UPDATE reservation_request 
-                            SET status = 'Rejected'
-                            WHERE reservation_id = '$reservation_id'
-                                AND taxi_id = $taxi_id
-                                AND status = 'Pending';";
-                $query_run2 = mysqli_query($connection, $query2);
+        // $query2 = " UPDATE reservation_request 
+        //             SET status = 'Rejected'
+        //             WHERE reservation_id = '$reservation_id'
+        //                 AND taxi_id = $taxi_id
+        //                 AND status = 'Pending';";
+        // $query_run2 = mysqli_query($connection, $query2);
+        
+        
+        // $query3 = " UPDATE taxi_reservation
+        //             SET status = 'Accepted'
+        //             WHERE id = '$reservation_id';";
+        // $query_run3 = mysqli_query($connection, $query3);
                 
-                if($query_run2){
-                    $query3 = " UPDATE taxi_reservation
-                                SET status = 'Accepted'
-                                WHERE id = '$reservation_id';";
-                    $query_run3 = mysqli_query($connection, $query3);
-                }
-
-            }
-        }
-
-        if($query_run && $query_run2 && $query_run3 )  {
-            header('Location: ../reservation_request_user.php?reservation_id='+$reservation_id'&acknowledge=datasaved');
+        if($query_run){ //&& $query_run2 && $query_run3 )  {
+            $params = 'reservation_id='.$reservation_id.'&acknowledge=datasaved';
+            echo $params;
+            header("Location: ../reservation_request_user.php?$params");
         }
         else{
-            header('Location: ../reservation_request_user.php?reservation_id='+$reservation_id'&acknowledge=datanotsaved');
+            $params = 'reservation_id='.$reservation_id.'&acknowledge=datanotsaved';
+            echo $params;
+            header("Location: ../reservation_request_user.php?$params");
         }
     }
     

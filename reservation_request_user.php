@@ -82,7 +82,7 @@
                             </div>
                             
                             <!-- the id of the reservation_id which is hidden to the user -->
-                            <input type="hidden" name="reservation_id" value= '<?php echo $reservation_id ?>' />
+                            <input type="hidden" name="reservation_id" id="reservation_id"/>
 
                             <!-- the id of the taxi_id which is hidden to the user -->
                             <input type="hidden" name="taxi_id" id="taxi_id" />
@@ -145,6 +145,7 @@
                                 <th scope="col">Price</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Change Status</th>
+                                <th scope="col">Show Taxi</th>
                                 
                             </tr>
                         </thead>
@@ -160,6 +161,9 @@
                                 <td> <?php echo $row['status']; ?> </td>
                                 <td>
                                     <button type="button" class="btn btn-primary change_status_btn"> Change </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary show_taxi_btn"> Show Taxi </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -194,12 +198,30 @@
 
             console.log(data);
 
-            $('#taxi_id').val(data[0])
-            $('#resrevation_id').val('<?php echo $reservation_id ?>');
+            $('#taxi_id').val(data[0]);
+            var php_var = "<?php echo $reservation_id; ?>";
+            console.log("php_var: "+php_var);
+            console.log(typeof php_var);
+            $('#reservation_id').val(php_var);
 
             //TODO: else: show the message that you cannot change this
             
         });
+
+
+        $('.show_taxi_btn').on('click', function(){
+            $tr = $(this).closest('tr');
+            var data = $tr.children("td").map(function(){
+                return $(this).text();
+            }).get();
+
+            console.log(data);
+            var taxi_id = data[0];
+            window.location.href = "./taxi_profile_user.php?taxi_id=" + taxi_id;
+
+            
+
+});
     });
     </script>
 
