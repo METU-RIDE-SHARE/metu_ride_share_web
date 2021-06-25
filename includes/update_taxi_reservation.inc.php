@@ -20,14 +20,10 @@
         $query = "UPDATE taxi_reservation SET datetime = '$date_time_formatted', location = '$departure', destination = '$destination' WHERE id = '$update_reservation_id';";
         $query_run = mysqli_query($connection, $query);
         if($query_run)  {
-            //TODO: the message is not shown: show it in the taxi_reservatio_user.php page
-            echo '<script> alert("Data Saved"); </script>';
-            //TODO: change the index.php to the taxi_reservatio_user.php
-            header('Location: taxi_reservation_user.php') ;
+            header('Location: ../taxi_reservation_user.php?acknowledge=datasaved');
         }
         else{
-            //TODO: the message is not shown: show it in the taxi_reservatio_user.php page
-            echo '<script> alert("Data Not Saved"); </script>';
+            header('Location: ../taxi_reservation_user.php?acknowledge=datanotsaved');
         }
     }
     

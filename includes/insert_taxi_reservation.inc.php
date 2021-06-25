@@ -12,19 +12,15 @@
         $departure = $_POST["departure"];
         $destination = $_POST["destination"];
         $date_time = $_POST["date_time"];
-        $creator_id = (int) $_POST["creator_id"];
+        $creator_id = (int) $_SESSION["currentUser"];
         
         $query = "INSERT INTO taxi_reservation (`datetime`, `location`, `destination`, `creator_id`) VALUES ('$date_time', '$departure', '$destination',  '$creator_id');";
         $query_run = mysqli_query($connection, $query);
         if($query_run)  {
-            //TODO: the message is not shown: show it in the taxi_reservatio_user.php page
-            echo '<script> alert("Data Saved"); </script>';
-            //TODO: change the index.php to the taxi_reservatio_user.php
-            header('Location: taxi_reservation_user.php') ;
+            header('Location: ../taxi_reservation_user.php?acknowledge=datasaved');
         }
         else{
-            //TODO: the message is not shown: show it in the taxi_reservatio_user.php page
-            echo '<script> alert(Data Not Saved) </script>';
+            header('Location: ../taxi_reservation_user.php?acknowledge=datanotsaved');
         }
     }
     
