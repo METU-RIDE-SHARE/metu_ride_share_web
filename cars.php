@@ -96,7 +96,7 @@
                         ?>
                         <table id="tableid" class="table table-bordered table-dark">
                             <thead>
-                                <tr>
+                                <tr style="color:orange";>
                                     <th scope="col">Owner ID</th>
                                     <th scope="col">Owner Name</th>
                                     <th scope="col">Owner Surname</th>
