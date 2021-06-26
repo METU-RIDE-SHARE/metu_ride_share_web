@@ -24,22 +24,15 @@
 						</li>
 						
 						
-						<!--<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Events
-							</a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<a class="dropdown-item" href="#">All Events</a>
-								<a class="dropdown-item" href="#">Ride Events</a>
-								<a class="dropdown-item" href="#">Package Events</a>
-							</div>
-						 </li>-->
+						<li class="nav-item">
+							<a class="nav-link" href="events.php">All Events</a>
+						</li>
 						 
 						<li class="nav-item">
-							<a class="nav-link" href="#">Package Events</a>
+							<a class="nav-link" href="packageEvents.php">Package Events</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">Ride Events</a>
+							<a class="nav-link" href="rideEvents.php">Ride Events</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="taxies.php">Taxies</a>
@@ -50,9 +43,7 @@
 						<li class="nav-item">
 							<a class="nav-link" href="cars.php">Cars</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">sss</a>
-						</li>
+						
 						<li class="nav-item">
 							<a class="nav-link" href="userAccount.php"><img src="pictures/person-circle.svg" class="img-fluid " alt=""></a>
 						</li>
