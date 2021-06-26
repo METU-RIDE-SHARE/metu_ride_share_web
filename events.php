@@ -7,7 +7,7 @@
 		
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="taxi_reservation_user" content="width=device-width, initial-scale=1.0">
-        <title>taxi reservation for users</title>
+        <title>All events</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         
 		<!-- Navigation -->
@@ -79,7 +79,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Profile Updated</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Event Created Succefully</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -102,7 +102,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Profile Update Failed!</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Event Creation Failed!</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -122,51 +122,71 @@
 
         <!-- ################################################################################################################################## -->
         <!-- EDIT TAXI RESERVATION (Bootstrap Modal) -->
-        <div class="modal fade" id="edit_profile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="add_event" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Profile</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Create Event</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="./includes/update_user_account.php" method="POST">
                     <div class="modal-body">
                         <div class="form_group">
-                            <label class="form-label">METU MAIL</label>
-                            <input readonly type="text" name="metu_mail" class="form-control" value="<?php echo $_SESSION['currentUserMail']?>" >
+                            <label class="form-label">Pick-up location</label>
+                            <input type="text" name="pickLoc" class="form-control" placeholder="Pick-up location" required>
                         </div>
 
                         <div class="form_group">
-                            <label class="form-label">First Name</label>
-                            <input type="text" name="firstname" class="form-control" value="<?php echo $_SESSION['currentUserFName']?>">
+                            <label class="form-label">Destination</label>
+                            <input type="text" name="destLoc" class="form-control" placeholder="Destination" required>
                         </div>
                         
 						<div class="form_group">
-                            <label class="form-label">Surname</label>
-                            <input type="text" name="surname" class="form-control" value="<?php echo $_SESSION['currentUserSName']?>">
+                            <label class="form-label">Pickup Date</label>
+                            <input type="text" name="date" class="form-control" placeholder="Pickup Date" required>
                         </div>
 						
 						<div class="form_group">
-                            <label class="form-label">Phone</label>
-                            <input type="text" name="phone" class="form-control" value="<?php echo $_SESSION['currentUserPhone']?>">
+                            <label class="form-label">Price</label>
+                            <input type="text" name="price" class="form-control" placeholder="Price" required>
                         </div>
 						
 						<div class="form_group">
-                            <label class="form-label">Facebook</label>
-                            <input type="text" name="facebook" class="form-control" value="<?php echo $_SESSION['currentUserFB']?>">
+                            <label class="form-label">Note</label>
+                            <input type="text" name="note" class="form-control" placeholder="Note" required>
                         </div>
 						
-						<div class="form_group">
-                            <label class="form-label">WhatsApp</label>
-                            <input type="text" name="whatsapp" class="form-control" value="<?php echo $_SESSION['currentUserWhats']?>">
-                        </div>
+						<div class="form-group">
+							<label id="selected">Select Event Type</label>
+							<select name="eventType" class="form-select form-select-lg mb-3" id="eventType">
+								<option>Choose Event Type</option>
+								<option value="Ride">Ride</option>
+								<option value="Package">Package Delievery</option>
+							</select>
+							 <div id="rideType" style="display:none;">    
+									<label for="seat_no">Total seats</label>
+									<input type="text" class="form-control" name = "seatNo" id="seatNo" placeholder="ie.1" >
+							 </div>
+                    
+						</div>
 						
                         
-                    </div>
+                    <div class="form-group">
+                     <div id="packageType" style="display:none;">
+                                <label for="pweight">Package weight</label>
+                                <input type="text" class="form-control" name="weight" id="weight" placeholder="ie.1kg" >
+                                <label for="pcontent">Package content</label>
+                                <input type="text" class="form-control" name="content" id="content" placeholder="ie.'documents'" >
+                     </div>
+                     <br>
+                    
+					</div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" name="update_account"class="btn btn-primary">Save</button>
+                        <button type="submit" name="create_event"class="btn btn-primary">Create</button>
                     </div>
+					
+					</div>
                 </form>
                 </div>
             </div>
@@ -177,7 +197,7 @@
             <div class="jumbotrom">
 
                 <div class="card">
-                    <h2>  Your Information</h2>
+                    <h2>  Event</h2>
                 </div>
 
                 <div class="card">
@@ -185,10 +205,13 @@
                         <!-- button type="button" class="btn btn-primary">Present Reservations</button -->
 
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit_profile">
-                            Edit Profile
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_event">
+                            Add Event
                         </button>
-
+						
+						<a href="myevents.php"> <button type="button" class="btn btn-primary">
+                            My Events
+                        </button> </a>
                     </div>            
                 </div>
 
@@ -204,29 +227,26 @@
                                 exit();
                             }
                             
-                            $current_metu_user_id = $_SESSION['currentUserID'];
+                            //$current_metu_user_id = $_SESSION['currentUserID'];
 
                             //current data and time
-                            $current_date = date('y-m-d h:i:s');
+                            //$current_date = date('y-m-d h:i:s');
 
-                            $query = "  SELECT *
-                                        FROM metu_users
-                                        WHERE id = $current_metu_user_id
-                                        ";
+                            $query = "  SELECT * FROM event";
+							
                             $query_run = mysqli_query($connection, $query);
                         ?>
                         <table id="tableid" class="table table-bordered table-dark">
                             <thead>
                                 <tr style="color:orange";>
-                                    <th scope="col">METU Mail</th>
-                                    <th scope="col">First Name</th>
-                                    <th scope="col">Last Name</th>
-                                    <th scope="col">Phone</th>
-                                    <th scope="col">Facebook</th>
-                                    <th scope="col">WhatsApp</th>
-									<th scope="col">No. of Reviews</th>
-									<th scope="col">Rating</th>
-									<th scope="col">Reviews Details</th>
+                                    <th scope="col">Datetime</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Destination</th>
+                                    <th scope="col">Departure</th>
+									<th scope="col">Notes</th>
+									<th scope="col">Creator</th>
+									<th scope="col">Responsible User</th>
                                 </tr>
                             </thead>
                         <?php
@@ -235,17 +255,18 @@
                         ?>
                             <tbody>
                                 <tr>
-                                    <td> <?php echo $row['metu_mail']; ?> </td>
-                                    <td> <?php echo $row['first_name']; ?> </td>
-                                    <td> <?php echo $row['surname']; ?> </td>
-                                    <td> <?php echo $row['phone']; ?> </td>
-                                    <td> <?php echo $row['facebook']; ?> </td>
-									<td> <?php echo $row['WhatsApp']; ?> </td>
-									<td> <?php echo $row['no_review']; ?> </td>
-									<td> <?php echo $row['rating']; ?> </td>
-									<td>
-                                        <button type="button" class="btn btn-primary show_review_btn"> Show Reviews </button>
-                                    </td>
+                                    <td> <?php echo $row['datetime']; ?> </td>
+                                    <td> <?php echo $row['event_status']; ?> </td>
+                                    <td> <?php echo $row['price']; ?> </td>
+                                    <td> <?php echo $row['destination']; ?> </td>
+									<td> <?php echo $row['departure']; ?> </td>
+									<td> <?php echo $row['note']; ?> </td>
+									<td> <div style="display: none;"><?php echo $row['creator_id']; ?></div>
+									<button type="button" class="btn btn-primary show_creator_user_btn"> Show User </button>
+									</td>
+									<td> <div style="display: none;"><?php echo $row['responsible_user_id']; ?></div>
+									<button type="button" class="btn btn-primary show_responsible_user_btn"> Show User </button>
+									</td>
                                 </tr>
                             </tbody>
                         <?php       
@@ -269,20 +290,52 @@
 
 	<script>
     $(document).ready(function(){
-        $('.show_review_btn').on('click', function(){
+        $('.show_creator_user_btn').on('click', function(){
             $tr = $(this).closest('tr');
                 var data = $tr.children("td").map(function(){
                     return $(this).text();
                 }).get();
 
-                //console.log(data);
+                console.log(data);
 
-                var owner_id = <?php echo $row['id']; ?>;
-                window.location.href = "./show_user_review.php?user_id=" + owner_id;
+				var owner_id = data[7];
+                window.location.href = "./user_profile_noedit.php?user_id=" + owner_id;
         });
 
 
     });
+	
+	$(document).ready(function(){
+        $('.show_responsible_user_btn').on('click', function(){
+            $tr = $(this).closest('tr');
+                var data = $tr.children("td").map(function(){
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+				var owner_id = data[8];
+                window.location.href = "./user_profile_noedit.php?user_id=" + owner_id;
+        });
+
+
+    });
+	
+
+	$('#eventType').on('change',function(){
+		if( $(this).val()==="Ride"){
+		$("#rideType").show()
+		$("#packageType").hide()
+		}
+		else if ($(this).val()==="Package"){
+		$("#rideType").hide()
+		$("#packageType").show()
+		}
+		else{
+		$("#packageType").hide()
+		$("#rideType").hide()
+		}
+	});
     </script>
 
 <?php

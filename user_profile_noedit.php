@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Taxi Profile</title>
+        <title>Users</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 		
 		<!-- Navigation -->
@@ -106,7 +106,7 @@
                                             echo "<p><strong>Facebook: </strong>". $row['facebook']."</p>";
                                             echo "<p><strong>WhasApp: </strong>". $row['WhatsApp']."</p>";
                                             echo "<p><strong>rating: </strong>". $row['rating']."</p>";
-                                            echo "<p><strong>not reviews: </strong>". $row['no_review']."</p>";
+                                            echo "<p><strong>not reviews: </strong>". $row['no_review']."</p>" ;
                                         }else{
                                             echo "the user is not found!";
                                         }
@@ -133,6 +133,7 @@
                                             echo "<p><strong>WhasApp: </strong>". $row['WhatsApp']."</p>";
                                             echo "<p><strong>rating: </strong>". $row['rating']."</p>";
                                             echo "<p><strong>not reviews: </strong>". $row['no_review']."</p>";
+											echo "<button type='button' class='btn btn-primary show_review_btn'> Show Reviews</button>";
                                         }else{
                                             echo "the user is not found!";
                                         }
@@ -150,5 +151,24 @@
                     <!-- ******************************************************************************************** -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
-    </body>
+		
+		<script>
+		$(document).ready(function(){
+			$('.show_review_btn').on('click', function(){
+				$tr = $(this).closest('tr');
+					var data = $tr.children("td").map(function(){
+						return $(this).text();
+					}).get();
+
+					console.log(data);
+
+					var owner_id = <?php echo $row['id']; ?>;
+					window.location.href = "./show_user_review.php?user_id=" + owner_id;
+			});
+
+
+		});
+		</script>
+	
+	</body>
 </html>
