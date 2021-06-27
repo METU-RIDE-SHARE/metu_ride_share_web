@@ -49,36 +49,46 @@
         </div>
 
 <!-- ################################################################################################################################## -->
-        <!-- Borrow car (Bootstrap Modal) -->
-        <div class="modal fade" id="create_borrow_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- add car (Bootstrap Modal) -->
+        <div class="modal fade" id="add_car_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Borrow request</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="./includes/create_borrow.inc.php" method="POST">
+                <form action="./includes/add_car.inc.php" method="POST">
                     <div class="modal-body">
                         
                         <div class="form_group">
-                            <label class="form-label">From Time</label>
-                            <input type="datetime-local" name="from_time" id="from_time" class="form-control" placeholder="Enter the the date and time">
-                            <!-- div id="date_time_help" class="form-text">Enter the data and time in this format: "yyyy-mm-dd hh:mm".</div-->
+                            <label class="form-label">Vehicle model</label>
+                            <input type="text" name="vehicle_model" class="form-control">
                         </div>
-                        
-                        
+
                         <div class="form_group">
-                            <label class="form-label">To Time</label>
-                            <input type="datetime-local" name="to_time" id="to_time" class="form-control" placeholder="Enter the the date and time">
-                            <!-- div id="date_time_help" class="form-text">Enter the data and time in this format: "yyyy-mm-dd hh:mm".</div-->
+                            <label class="form-label">Vehicle Capacity</label>
+                            <input type="number" name="vehicle_capacity" class="form-control">
                         </div>
-                        
-                        <input type="hidden" name="user_from_id" id="user_from_id"/>
-                        <input type="hidden" name="car_id" id="car_id"/>
+
+                        <div class="form_group">
+                            <label class="form-label">license plate number</label>
+                            <input type="text" name="license_plate_no" class="form-control">
+                        </div>
+
+                        <div class="form_group">
+                            <label class="form-label">Vehicle color</label>
+                            <input type="text" name="vehicle_color" class="form-control">
+                        </div>
+                        <div class="form_group">
+                            <label class="form-label">licence number</label>
+                            <input type="number" name="license_number" class="form-control">
+                        </div>
+            
+                        <input type="hidden" name="add_car_user_from" id="add_car_user_from"/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" name="create_borrow_b"class="btn btn-primary">Save</button>
+                        <button type="submit" name="add_car_b"class="btn btn-primary">Add</button>
                     </div>
                     
                 </form>
@@ -105,7 +115,7 @@
                             </li>
                         </ul>
 
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_car">
+                        <button type="button" class="btn btn-primary add_car_btn">
                             Add car
                         </button>
                     
@@ -114,7 +124,7 @@
                             $connection = new mysqli("localhost","root","","metu_ride_share");
                             // Check connection
                             if ($connection -> connect_errno) {
-                                echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+                                echo "Failed to connect to MySQL: " . $connection -> connect_error;
                                 exit();
                             }
                             
@@ -173,12 +183,14 @@
     $(document).ready(function(){
         
 
-        $('.add_car').on('click', function(){
+        $('.add_car_btn').on('click', function(){
 
                 var php_var = "<?php echo $_SESSION['currentUserID']; ?>";
                 console.log("current user id: "+ php_var);
                 console.log(typeof php_var);
                 $('#add_car_user_from').val(php_var);
+
+                $('#add_car_modal').modal('show');
         });
 
 
