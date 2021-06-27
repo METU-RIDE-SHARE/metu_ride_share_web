@@ -62,6 +62,7 @@
 	</head>
     <body>
 
+
         
         <!-- success modal -->
         <!-- Modal -->
@@ -98,7 +99,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-danger" role="alert" id=error_message>
                         You data has NOT been saved.
                     </div>
                 </div>
@@ -346,13 +347,17 @@
 <?php
     $show_success_modal = false;
     $show_error_modal = false;
+    $show_error_have_request_modal = false;
     if(isset($_GET['acknowledge'])){
         if($_GET['acknowledge'] == "datasaved"){
             $show_success_modal = true;
         }
         else if ($_GET['acknowledge'] == "datanotsaved"){
             $show_error_modal = true;
-        } 
+        }elseif ($_GET['acknowledge'] == "have_requests") {
+            $show_error_have_request_modal = true;
+            
+        }
     } 
 ?>
 
@@ -367,7 +372,17 @@
 <?php if($show_error_modal){?>
     <script>  
         $(document).ready(function(){
-                $('#error_modal').modal('show'); 
+            $('#error_message').text("your data has not been saved because of error.");
+            $('#error_modal').modal('show'); 
+        }); 
+    </script>
+<?php }?>
+
+<?php if($show_error_have_request_modal){?>
+    <script>  
+        $(document).ready(function(){
+            $('#error_message').text("You cannot change the reservation because requests made for this reservation. you can cancel this reservation and create a new one.");
+            $('#error_modal').modal('show'); 
         }); 
     </script>
 <?php }?>

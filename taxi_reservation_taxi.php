@@ -1,66 +1,4 @@
-<?php session_start();?>
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="taxi_reservation_taxi" content="width=device-width, initial-scale=1.0">
-        <title>taxi reservation for taxi user</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css"> -->
-    
-	<!-- Navigation -->
-		<nav class="navbar navbar-expand-lg navbar-light static-top" style="background-color:#00C0CE;">
-			<div class="container">
-				<!--<a class="navbar-brand" href="#">
-					<img src="pictures/logo.png" alt="">
-				</a>-->
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-				  <span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarResponsive">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item active">
-							<a class="nav-link" href="main.html">Home
-							</a>
-						</li>
-						
-						
-						<li class="nav-item">
-							<a class="nav-link" href="events.php">All Events</a>
-						</li>
-						 
-						<li class="nav-item">
-							<a class="nav-link" href="packageEvents.php">Package Events</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="rideEvents.php">Ride Events</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="taxies.php">Taxies</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="taxi_reservation_user.php">Taxi Reservations</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="cars.php">Cars</a>
-						</li>
-						
-						<li class="nav-item">
-							<a class="nav-link" href="userAccount.php"><img src="pictures/person-circle.svg" class="img-fluid " alt=""></a>
-						</li>
-					</ul>
-					
-				</div>
-			</div>
-		</nav>
-		
-		<div class="container" style="background-color:black; margin-top:20px; margin-bottom:20px;">
-			<h1 style="color:white; text-align:center;"> METU RIDE SHARE </h1>
-		</div>
-	
-	</head>
     <body>
 
         
@@ -99,31 +37,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-danger" role="alert" id=error_message>
                         You data has NOT been saved.
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- already requested modal -->
-        <!-- Modal -->
-        <div class="modal fade" id="already_requested_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-danger" role="alert">
-                        You data has NOT been saved. Because you have already requested for this reservation.
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -389,6 +304,7 @@
 <?php if($show_error_modal){?>
     <script>  
         $(document).ready(function(){
+                $('#error_message').text('your data has not been saved due a internal problem.');
                 $('#error_modal').modal('show'); 
         }); 
     </script>
@@ -397,7 +313,8 @@
 <?php if($already_requested){?>
     <script>  
         $(document).ready(function(){
-                $('#already_requested_modal').modal('show'); 
+                $('#error_message').text('you cannot create this request since you have already requested for this reservation');
+                $('#error_modal').modal('show');
         }); 
     </script>
 <?php }?>

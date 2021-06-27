@@ -9,7 +9,6 @@
     }
 
     if(isset($_POST["update_taxi_reservation_b"])){
-        
         $update_reservation_id = $_POST["update_reservation_id"];
         $departure = $_POST["departure"];
         $destination = $_POST["destination"];
@@ -17,13 +16,36 @@
         $date_time_formatted = str_replace('T', ' ', $date_time);
         echo $date_time_formatted;
         
+
+        //checking if they are any requests so far for this reservation if so the change cannot be done
+        $query_ckeck = "SELECT COUNT(*) as count_row
+                        FROM reservation_request rr
+                        INNER JOIN taxi_reservation tr
+                        ON rr.reservation_id = tr.id
+                        WHERE tr.id = '$update_reservation_id'";
+
+        $query_run_check = mysqli_query($connection, $query_ckeck);
+        if($query_run_check)  {
+            $row = $query_run_check -> fetch_array(MYSQLI_ASSOC);
+            echo $row['count_row']; 
+            if ($row['count_row'] > 0){
+                $params = '&acknowledge=have_requests';
+                echo $params;
+                header("Location: ../taxi_reservation_user.php?$params");
+            }
+        }
+        else{
+            echo "ERORR in the DATABASE QUERY";
+        }
+
+
         $query = "UPDATE taxi_reservation SET datetime = '$date_time_formatted', location = '$departure', destination = '$destination' WHERE id = '$update_reservation_id';";
         $query_run = mysqli_query($connection, $query);
         if($query_run)  {
-            header('Location: ../taxi_reservation_user.php?acknowledge=datasaved');
+            //header('Location: ../taxi_reservation_user.php?acknowledge=datasaved');
         }
         else{
-            header('Location: ../taxi_reservation_user.php?acknowledge=datanotsaved');
+            //header('Location: ../taxi_reservation_user.php?acknowledge=datanotsaved');
         }
     }
     
