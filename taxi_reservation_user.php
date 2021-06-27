@@ -251,7 +251,7 @@
                             //current data and time
                             $current_date = date('y-m-d h:i:s');
 
-                                
+                            //TODO: the data and also for changing them control in the script
                             // $query = "  SELECT tr.Id, tr.datetime, tr.location, tr.destination, tr.status
                             //             FROM taxi_reservation tr
                             //             INNER JOIN metu_users mu
