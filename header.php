@@ -25,11 +25,6 @@
 							</a>
 						</li>
 						
-						
-						<li class="nav-item">
-							<a class="nav-link" href="events.php">All Events</a>
-						</li>
-						 
 						<li class="nav-item">
 							<a class="nav-link" href="packageEvents.php">Package Events</a>
 						</li>

@@ -2,13 +2,148 @@
 
     <body>
 		
+        
+        <!-- success modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="success_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Event Created Succefully</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success" role="alert">
+                        You data has been saved.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                </div>
+                </div>
+            </div>
+        </div> 
+
+        <!-- error modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="error_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Event Creation Failed!</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" role="alert">
+                        You data has NOT been saved.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    
+
+        <!-- ################################################################################################################################## -->
+        <!-- EDIT TAXI RESERVATION (Bootstrap Modal) -->
+        <div class="modal fade" id="add_event" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="./includes/create_event.php" method="POST">
+                    <div class="modal-body">
+                        <div class="form_group">
+                            <label class="form-label">Pick-up location</label>
+                            <input type="text" name="pickLoc" class="form-control" placeholder="Pick-up location" required>
+                        </div>
+
+                        <div class="form_group">
+                            <label class="form-label">Destination</label>
+                            <input type="text" name="destLoc" class="form-control" placeholder="Destination" required>
+                        </div>
+                        
+						<div class="form_group">
+                            <label class="form-label">Pickup Date</label>
+                            <input type="text" name="date" class="form-control" placeholder="Pickup Date" required>
+                        </div>
+						
+						<div class="form_group">
+                            <label class="form-label">Price</label>
+                            <input type="text" name="price" class="form-control" placeholder="Price" required>
+                        </div>
+						
+						<div class="form_group">
+                            <label class="form-label">Note</label>
+                            <input type="text" name="note" class="form-control" placeholder="Note" required>
+                        </div>
+						
+						<div class="form-group">
+							<label id="selected">Select Event Type</label>
+							<select name="eventType" class="form-select form-select-lg mb-3" id="eventType">
+								<option>Choose Event Type</option>
+								<option value="Ride">Ride</option>
+								<option value="Package">Package Delievery</option>
+							</select>
+							 <div id="rideType" style="display:none;">    
+									<label for="seat_no">Total seats</label>
+									<input type="text" class="form-control" name = "seatNo" id="seatNo" placeholder="ie.1" >
+							 </div>
+                    
+						</div>
+						
+                        
+                    <div class="form-group">
+                     <div id="packageType" style="display:none;">
+                                <label for="pweight">Package weight</label>
+                                <input type="text" class="form-control" name="weight" id="weight" placeholder="ie.1kg" >
+                                <label for="pcontent">Package content</label>
+                                <input type="text" class="form-control" name="content" id="content" placeholder="ie.'documents'" >
+                     </div>
+                     <br>
+                    
+					</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" name="create_event"class="btn btn-primary">Create</button>
+                    </div>
+					
+					</div>
+                </form>
+                </div>
+            </div>
+        </div>
+        <!-- ############################################################################################################################################# -->
+
 		<div class="container">
 			<div class="jumbotrom">
 
 				<div class="card">
 					<h2>  Package Events</h2>
 				</div>
+				
+				<div class="card">
+                    <div class="card-body">
+                        <!-- button type="button" class="btn btn-primary">Present Reservations</button -->
 
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_event">
+                            Create Event
+                        </button>
+						
+						<a href="myPackageEvents.php"> <button type="button" class="btn btn-primary">
+                            My Package Events
+                        </button> </a>
+                    </div>            
+                </div>
         
                 <div class="card">
                     <div class="card-body">
@@ -27,17 +162,27 @@
                             //current data and time
                             //$current_date = date('y-m-d h:i:s');
 
-                            $query = "  SELECT * FROM package";
-							
+                           // $query = "  SELECT * FROM package ";
+							$query = "  SELECT * 
+                                        FROM package p, event e
+                                        WHERE p.eid = e.event_id
+                                        ";
                             $query_run = mysqli_query($connection, $query);
                         ?>
                         <table id="tableid" class="table table-bordered table-dark">
                             <thead>
                                 <tr style="color:orange";>
-                                    <th scope="col">Car Id</th>
+                                    <th scope="col">Datetime</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Destination</th>
+                                    <th scope="col">Departure</th>
+									<th scope="col">Notes</th>
+									<th scope="col">Car Id</th>
                                     <th scope="col">Weight</th>
                                     <th scope="col">Content</th>
-                                    <th scope="col">Event Details</th>
+									<th scope="col">Creator</th>
+									<th scope="col">Responsible User</th>
                                 </tr>
                             </thead>
                         <?php
@@ -46,13 +191,22 @@
                         ?>
                             <tbody>
                                 <tr>
-                                    <td> <?php echo $row['car_id']; ?> </td>
+                                    <td> <?php echo $row['datetime']; ?> </td>
+                                    <td> <?php echo $row['event_status']; ?> </td>
+                                    <td> <?php echo $row['price']; ?> </td>
+                                    <td> <?php echo $row['destination']; ?> </td>
+									<td> <?php echo $row['departure']; ?> </td>
+									<td> <?php echo $row['note']; ?> </td>
+									<td> <?php echo $row['car_id']; ?> </td>
                                     <td> <?php echo $row['weight']; ?> </td>
                                     <td> <?php echo $row['content']; ?> </td>
-									<td> <div style="display: none;"><?php echo $row['eid']; ?></div>
-									<button type="button" class="btn btn-primary show_event_details_btn"> Show Details</button>
+									<td> <div style="display: none;"><?php echo $row['creator_id']; ?></div>
+									<button type="button" class="btn btn-primary show_creator_user_btn"> Show User </button>
 									</td>
-									
+									<td> <div style="display: none;"><?php echo $row['responsible_user_id']; ?></div>
+									<button type="button" class="btn btn-primary show_responsible_user_btn"> Show User </button>
+									</td>
+
                                 </tr>
                             </tbody>
                         <?php       
@@ -76,7 +230,7 @@
 
 	<script>
     $(document).ready(function(){
-        $('.show_event_details_btn').on('click', function(){
+        $('.show_creator_user_btn').on('click', function(){
             $tr = $(this).closest('tr');
                 var data = $tr.children("td").map(function(){
                     return $(this).text();
@@ -84,13 +238,44 @@
 
                 console.log(data);
 
-				var owner_id = data[3];
-                window.location.href = "./show_specific_event.php?event_id=" + owner_id;
+				var owner_id = data[9];
+                window.location.href = "./user_profile_noedit.php?user_id=" + owner_id;
         });
 
 
     });
 	
+	$(document).ready(function(){
+        $('.show_responsible_user_btn').on('click', function(){
+            $tr = $(this).closest('tr');
+                var data = $tr.children("td").map(function(){
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+				var owner_id = data[10];
+                window.location.href = "./user_profile_noedit.php?user_id=" + owner_id;
+        });
+
+
+    });
+	
+
+	$('#eventType').on('change',function(){
+		if( $(this).val()==="Ride"){
+		$("#rideType").show()
+		$("#packageType").hide()
+		}
+		else if ($(this).val()==="Package"){
+		$("#rideType").hide()
+		$("#packageType").show()
+		}
+		else{
+		$("#packageType").hide()
+		$("#rideType").hide()
+		}
+	});
     </script>
 
     </body>
