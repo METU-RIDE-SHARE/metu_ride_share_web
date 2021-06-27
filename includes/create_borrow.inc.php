@@ -53,12 +53,12 @@
         if($query_run){ 
             $params = '&acknowledge=datasaved';
             echo $params;
-            //header("Location: ../cars.php?$params");
+            header("Location: ../cars.php?$params");
         }
         else{
             $params = '&acknowledge=datanotsaved';
             echo $params;
-            //header("Location: ../cars.php?$params");
+            header("Location: ../cars.php?$params");
         }
     }
     
