@@ -39,15 +39,15 @@
                         <table id="tableid" class="table table-bordered table-dark">
                             <thead>
                                 <tr style="color:orange";>
-                                     <th scope="col">Datetime</th>
+                                    <th scope="col">Datetime</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Destination</th>
                                     <th scope="col">Departure</th>
 									<th scope="col">Notes</th>
-									<th scope="col">Car Id</th>
                                     <th scope="col">Weight</th>
                                     <th scope="col">Content</th>
+									<th scope="col">Car</th>
 									<th scope="col">Creator</th>
 									<th scope="col">Responsible User</th>
                                 </tr>
@@ -58,15 +58,17 @@
                         ?>
                             <tbody>
                                 <tr>
-                                     <td> <?php echo $row['datetime']; ?> </td>
+                                    <td> <?php echo $row['datetime']; ?> </td>
                                     <td> <?php echo $row['event_status']; ?> </td>
                                     <td> <?php echo $row['price']; ?> </td>
                                     <td> <?php echo $row['destination']; ?> </td>
 									<td> <?php echo $row['departure']; ?> </td>
 									<td> <?php echo $row['note']; ?> </td>
-									<td> <?php echo $row['car_id']; ?> </td>
                                     <td> <?php echo $row['weight']; ?> </td>
                                     <td> <?php echo $row['content']; ?> </td>
+									<td> <div style="display: none;"><?php echo $row['car_id']; ?></div>
+									<button type="button" class="btn btn-primary show_vehicle_details_btn"> Show Car Details </button>
+									</td>
 									<td> <div style="display: none;"><?php echo $row['creator_id']; ?></div>
 									<button type="button" class="btn btn-primary show_creator_user_btn"> Show User </button>
 									</td>
@@ -103,7 +105,7 @@
 
                 console.log(data);
 
-				var owner_id = data[7];
+				var owner_id = data[9];
                 window.location.href = "./user_profile_noedit.php?user_id=" + owner_id;
         });
 
@@ -119,8 +121,24 @@
 
                 console.log(data);
 
-				var owner_id = data[8];
+				var owner_id = data[10];
                 window.location.href = "./user_profile_noedit.php?user_id=" + owner_id;
+        });
+
+
+    });
+	
+	$(document).ready(function(){
+        $('.show_vehicle_details_btn').on('click', function(){
+            $tr = $(this).closest('tr');
+                var data = $tr.children("td").map(function(){
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+				var owner_id = data[8];
+                window.location.href = "./show_vehicle.php?vehicle_id=" + owner_id;
         });
 
 

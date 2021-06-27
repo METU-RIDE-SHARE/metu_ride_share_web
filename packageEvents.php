@@ -192,9 +192,9 @@
                                     <th scope="col">Destination</th>
                                     <th scope="col">Departure</th>
 									<th scope="col">Notes</th>
-									<th scope="col">Car Id</th>
                                     <th scope="col">Weight</th>
                                     <th scope="col">Content</th>
+									<th scope="col">Car</th>
 									<th scope="col">Creator</th>
 									<th scope="col">Responsible User</th>
                                 </tr>
@@ -211,9 +211,11 @@
                                     <td> <?php echo $row['destination']; ?> </td>
 									<td> <?php echo $row['departure']; ?> </td>
 									<td> <?php echo $row['note']; ?> </td>
-									<td> <?php echo $row['car_id']; ?> </td>
                                     <td> <?php echo $row['weight']; ?> </td>
                                     <td> <?php echo $row['content']; ?> </td>
+									<td> <div style="display: none;"><?php echo $row['car_id']; ?></div>
+									<button type="button" class="btn btn-primary show_vehicle_details_btn"> Show Car Details </button>
+									</td>
 									<td> <div style="display: none;"><?php echo $row['creator_id']; ?></div>
 									<button type="button" class="btn btn-primary show_creator_user_btn"> Show User </button>
 									</td>
@@ -270,6 +272,22 @@
 
 				var owner_id = data[10];
                 window.location.href = "./user_profile_noedit.php?user_id=" + owner_id;
+        });
+
+
+    });
+	
+	$(document).ready(function(){
+        $('.show_vehicle_details_btn').on('click', function(){
+            $tr = $(this).closest('tr');
+                var data = $tr.children("td").map(function(){
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+				var owner_id = data[8];
+                window.location.href = "./show_vehicle.php?vehicle_id=" + owner_id;
         });
 
 

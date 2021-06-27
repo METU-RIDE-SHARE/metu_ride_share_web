@@ -275,6 +275,21 @@
 
     });
 	
+	$(document).ready(function(){
+        $('.show_vehicle_details_btn').on('click', function(){
+            $tr = $(this).closest('tr');
+                var data = $tr.children("td").map(function(){
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+				var owner_id = data[8];
+                window.location.href = "./show_vehicle.php?vehicle_id=" + owner_id;
+        });
+
+
+    });
 
 	$('#eventType').on('change',function(){
 		if( $(this).val()==="Ride"){

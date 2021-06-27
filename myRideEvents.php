@@ -39,7 +39,7 @@
                         <table id="tableid" class="table table-bordered table-dark">
                             <thead>
                                 <tr style="color:orange";>
-                                     <th scope="col">Datetime</th>
+                                    <th scope="col">Datetime</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Destination</th>
@@ -58,7 +58,7 @@
                         ?>
                             <tbody>
                                 <tr>
-                                    <td> <?php echo $row['datetime']; ?> </td>
+                                   <td> <?php echo $row['datetime']; ?> </td>
                                     <td> <?php echo $row['event_status']; ?> </td>
                                     <td> <?php echo $row['price']; ?> </td>
                                     <td> <?php echo $row['destination']; ?> </td>
@@ -105,7 +105,7 @@
 
                 console.log(data);
 
-				var owner_id = data[7];
+				var owner_id = data[9];
                 window.location.href = "./user_profile_noedit.php?user_id=" + owner_id;
         });
 
@@ -121,8 +121,24 @@
 
                 console.log(data);
 
-				var owner_id = data[8];
+				var owner_id = data[10];
                 window.location.href = "./user_profile_noedit.php?user_id=" + owner_id;
+        });
+
+
+    });
+	
+	$(document).ready(function(){
+        $('.show_vehicle_details_btn').on('click', function(){
+            $tr = $(this).closest('tr');
+                var data = $tr.children("td").map(function(){
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+				var owner_id = data[8];
+                window.location.href = "./show_vehicle.php?vehicle_id=" + owner_id;
         });
 
 
