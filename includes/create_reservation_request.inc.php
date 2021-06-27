@@ -36,6 +36,7 @@
             
         }else{
             echo 'SOMETHING WRONG WITH the QUERY';
+            exit();
         }
 
     

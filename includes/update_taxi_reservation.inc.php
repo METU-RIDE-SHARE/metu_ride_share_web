@@ -42,10 +42,10 @@
         $query = "UPDATE taxi_reservation SET datetime = '$date_time_formatted', location = '$departure', destination = '$destination' WHERE id = '$update_reservation_id';";
         $query_run = mysqli_query($connection, $query);
         if($query_run)  {
-            //header('Location: ../taxi_reservation_user.php?acknowledge=datasaved');
+            header('Location: ../taxi_reservation_user.php?acknowledge=datasaved');
         }
         else{
-            //header('Location: ../taxi_reservation_user.php?acknowledge=datanotsaved');
+            header('Location: ../taxi_reservation_user.php?acknowledge=datanotsaved');
         }
     }
     
