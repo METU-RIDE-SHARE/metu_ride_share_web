@@ -95,13 +95,22 @@
 
                 <div class="card">
                     <div class="card-body">
+
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">All Cars</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="myCars.php">My cars</a>
+                            </li>
+                        </ul>
                     
                         <?php
                             // Connect to the database
                             $connection = new mysqli("localhost","root","","metu_ride_share");
                             // Check connection
                             if ($connection -> connect_errno) {
-                                echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+                                echo "Failed to connect to MySQL: " . $connection -> connect_error;
                                 exit();
                             }
                             
