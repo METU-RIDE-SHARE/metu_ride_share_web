@@ -120,7 +120,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Create Event</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="./includes/update_user_account.php" method="POST">
+                <form action="./includes/create_event.php" method="POST">
                     <div class="modal-body">
                         <div class="form_group">
                             <label class="form-label">Pick-up location</label>
