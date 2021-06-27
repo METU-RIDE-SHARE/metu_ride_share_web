@@ -24,7 +24,7 @@ $selected = $_POST['eventType'];
 $seatNo = $_POST['seatNo'];
 $weight = $_POST['weight'];
 $content = $_POST['content'];
-
+$radioVal = $_POST["MyRadio"];
 
 $last_id ='';
 
@@ -45,7 +45,7 @@ echo "<script>alert('Opps, an error happened!!');</script>";
 
 $success = '';
 if($selected=="Ride"){
-    $sqlRide = "INSERT INTO ride (`eid`, `total_seats`, `ride_type`, `vehicle_id`) VALUES ('$last_id', '$seatNo', '$selected', null)";
+    $sqlRide = "INSERT INTO ride (`eid`, `total_seats`, `ride_type`, `vehicle_id`) VALUES ('$last_id', '$seatNo', '$radioVal', null)";
     if ($conn->query($sqlRide) === TRUE) {
 		$success = true;
       } else {
@@ -61,12 +61,18 @@ if($selected=="Ride"){
 }
 
 if ($success == true){
-	header('Location: ../events.php?acknowledge=datasaved');
+	if ($selected=="Ride"){
+		header('Location: ../rideEvents.php?acknowledge=datasaved');}
+	else{
+		header('Location: ../packageEvents.php?acknowledge=datasaved');}
 }
 else {
-	header('Location: ../events.php?acknowledge=datanotsaved');
+	if ($selected=="Ride"){
+		header('Location: ../rideEvents.php?acknowledge=datanotsaved');}
+	else{
+		header('Location: ../packageEvents.php?acknowledge=datanotsaved');}
+	
 }
-
 }
 
 $conn->close();

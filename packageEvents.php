@@ -9,7 +9,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Event Created Succefully</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Package Event Created Succefully</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -32,7 +32,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Event Creation Failed!</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Package Event Creation Failed!</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -93,11 +93,25 @@
 								<option value="Ride">Ride</option>
 								<option value="Package">Package Delievery</option>
 							</select>
-							 <div id="rideType" style="display:none;">    
-									<label for="seat_no">Total seats</label>
-									<input type="text" class="form-control" name = "seatNo" id="seatNo" placeholder="ie.1" >
-							 </div>
+							<div id="rideType" style="display:none;">    
+								<label for="seat_no">Total seat</label>
+								<input type="text" class="form-control" name = "seatNo" id="seatNo" placeholder="ie.1" >
+								<div class="form-check">
+								<input class="form-check-input" type="radio" name="MyRadio" value="car" checked>
+								<label class="form-check-label" for="flexRadioDefault1">
+									Car Ride
+								</label>
+								</div>
+								<div class="form-check">
+								<input class="form-check-input" type="radio" name="MyRadio" value="taxi" >
+								<label class="form-check-label" for="flexRadioDefault2">
+									Taxi Ride
+								</label>
+								</div>
+							</div>
                     
+					
+					
 						</div>
 						
                         
@@ -178,9 +192,9 @@
                                     <th scope="col">Destination</th>
                                     <th scope="col">Departure</th>
 									<th scope="col">Notes</th>
-									<th scope="col">Car Id</th>
                                     <th scope="col">Weight</th>
                                     <th scope="col">Content</th>
+									<th scope="col">Car</th>
 									<th scope="col">Creator</th>
 									<th scope="col">Responsible User</th>
                                 </tr>
@@ -197,9 +211,11 @@
                                     <td> <?php echo $row['destination']; ?> </td>
 									<td> <?php echo $row['departure']; ?> </td>
 									<td> <?php echo $row['note']; ?> </td>
-									<td> <?php echo $row['car_id']; ?> </td>
                                     <td> <?php echo $row['weight']; ?> </td>
                                     <td> <?php echo $row['content']; ?> </td>
+									<td> <div style="display: none;"><?php echo $row['car_id']; ?></div>
+									<button type="button" class="btn btn-primary show_vehicle_details_btn"> Show Car Details </button>
+									</td>
 									<td> <div style="display: none;"><?php echo $row['creator_id']; ?></div>
 									<button type="button" class="btn btn-primary show_creator_user_btn"> Show User </button>
 									</td>
@@ -261,6 +277,22 @@
 
     });
 	
+	$(document).ready(function(){
+        $('.show_vehicle_details_btn').on('click', function(){
+            $tr = $(this).closest('tr');
+                var data = $tr.children("td").map(function(){
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+				var owner_id = data[8];
+                window.location.href = "./show_vehicle.php?vehicle_id=" + owner_id;
+        });
+
+
+    });
+	
 
 	$('#eventType').on('change',function(){
 		if( $(this).val()==="Ride"){
@@ -277,6 +309,35 @@
 		}
 	});
     </script>
+
+<?php
+    $show_success_modal = false;
+    $show_error_modal = false;
+    if(isset($_GET['acknowledge'])){
+        if($_GET['acknowledge'] == "datasaved"){
+            $show_success_modal = true;
+        }
+        else if ($_GET['acknowledge'] == "datanotsaved"){
+            $show_error_modal = true;
+        } 
+    } 
+?>
+
+<?php if($show_success_modal){?>
+    <script>  
+        $(document).ready(function(){
+                $('#success_modal').modal('show'); 
+        }); 
+    </script>
+<?php }?>
+
+<?php if($show_error_modal){?>
+    <script>  
+        $(document).ready(function(){
+                $('#error_modal').modal('show'); 
+        }); 
+    </script>
+<?php }?>
 
     </body>
 </html>
