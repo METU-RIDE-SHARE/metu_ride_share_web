@@ -108,7 +108,7 @@
 
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link" href="myCars.php">All Cars</a>
+                                <a class="nav-link" href="cars.php">All Cars</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#">My Cars</a>

@@ -45,7 +45,7 @@
 		{
 			$row = mysqli_fetch_assoc($allusers);
 			$_SESSION['currentUserMail'] = $mail;
-			$_SESSION['currentUserID'] = $row['id'];
+			$_SESSION['currentUserID'] = $row['vehicle_id'];
 			$_SESSION['currentUserFName'] = $row['first_name'];
 			$_SESSION['currentUserSName'] = $row['surname'];
 			$_SESSION['currentUserPhone'] = $row['phone'];
