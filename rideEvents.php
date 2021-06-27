@@ -9,7 +9,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Event Created Succefully</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ride Event Created Succefully</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -32,7 +32,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Event Creation Failed!</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"> Ride Event Creation Failed!</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -93,10 +93,22 @@
 								<option value="Ride">Ride</option>
 								<option value="Package">Package Delievery</option>
 							</select>
-							 <div id="rideType" style="display:none;">    
-									<label for="seat_no">Total seats</label>
-									<input type="text" class="form-control" name = "seatNo" id="seatNo" placeholder="ie.1" >
-							 </div>
+							<div id="rideType" style="display:none;">    
+								<label for="seat_no">Total seat</label>
+								<input type="text" class="form-control" name = "seatNo" id="seatNo" placeholder="ie.1" >
+								<div class="form-check">
+								<input class="form-check-input" type="radio" name="MyRadio" value="car" checked>
+								<label class="form-check-label" for="flexRadioDefault1">
+									Car Ride
+								</label>
+								</div>
+								<div class="form-check">
+								<input class="form-check-input" type="radio" name="MyRadio" value="taxi" >
+								<label class="form-check-label" for="flexRadioDefault2">
+									Taxi Ride
+								</label>
+								</div>
+							</div>
                     
 						</div>
 						
@@ -279,6 +291,35 @@
 		}
 	});
     </script>
+
+<?php
+    $show_success_modal = false;
+    $show_error_modal = false;
+    if(isset($_GET['acknowledge'])){
+        if($_GET['acknowledge'] == "datasaved"){
+            $show_success_modal = true;
+        }
+        else if ($_GET['acknowledge'] == "datanotsaved"){
+            $show_error_modal = true;
+        } 
+    } 
+?>
+
+<?php if($show_success_modal){?>
+    <script>  
+        $(document).ready(function(){
+                $('#success_modal').modal('show'); 
+        }); 
+    </script>
+<?php }?>
+
+<?php if($show_error_modal){?>
+    <script>  
+        $(document).ready(function(){
+                $('#error_modal').modal('show'); 
+        }); 
+    </script>
+<?php }?>
 
     </body>
 </html>
