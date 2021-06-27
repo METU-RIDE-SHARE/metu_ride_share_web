@@ -96,7 +96,7 @@
 			
 			
 			
-			<div class="text-center">Don't have an account? <a href="registration.php">Sign up</a></div>
+			<div class="text-center">Don't have an account? <a href="taxiRegistration.php">Sign up</a></div>
 			
 		</form>
 	 </div>

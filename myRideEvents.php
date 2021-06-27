@@ -8,7 +8,7 @@
             <div class="jumbotrom">
 
                 <div class="card">
-                    <h2>  My Events</h2>
+                    <h2>  My Ride Events</h2>
                 </div>
 
 
@@ -28,21 +28,26 @@
 
                             //current data and time
                             //$current_date = date('y-m-d h:i:s');
-
-                            $query = "  SELECT * FROM event WHERE creator_id = '$current_metu_user_id'";
-							
+                            //$query = "  SELECT * FROM event WHERE creator_id = '$current_metu_user_id'";
+							$query = "  SELECT * 
+                                        FROM ride r, event e
+                                        WHERE r.eid = e.event_id
+										AND e.creator_id = '$current_metu_user_id';
+                                        ";
                             $query_run = mysqli_query($connection, $query);
                         ?>
                         <table id="tableid" class="table table-bordered table-dark">
                             <thead>
                                 <tr style="color:orange";>
-                                    <th scope="col">Event ID</th>
-                                    <th scope="col">Datetime</th>
+                                     <th scope="col">Datetime</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Destination</th>
                                     <th scope="col">Departure</th>
 									<th scope="col">Notes</th>
+									<th scope="col">Total Seats</th>
+                                    <th scope="col">Ride Type</th>                                  
+									<th scope="col">Vehicle Details</th>
 									<th scope="col">Creator</th>
 									<th scope="col">Responsible User</th>
                                 </tr>
@@ -53,13 +58,17 @@
                         ?>
                             <tbody>
                                 <tr>
-                                    <td> <?php echo $row['event_id']; ?> </td>
                                     <td> <?php echo $row['datetime']; ?> </td>
                                     <td> <?php echo $row['event_status']; ?> </td>
                                     <td> <?php echo $row['price']; ?> </td>
                                     <td> <?php echo $row['destination']; ?> </td>
 									<td> <?php echo $row['departure']; ?> </td>
 									<td> <?php echo $row['note']; ?> </td>
+									<td> <?php echo $row['total_seats']; ?> </td>
+                                    <td> <?php echo $row['ride_type']; ?> </td>
+									<td> <div style="display: none;"><?php echo $row['vehicle_id']; ?></div>
+									<button type="button" class="btn btn-primary show_vehicle_details_btn"> Show Vehicle Details</button>
+									</td>
 									<td> <div style="display: none;"><?php echo $row['creator_id']; ?></div>
 									<button type="button" class="btn btn-primary show_creator_user_btn"> Show User </button>
 									</td>
@@ -72,8 +81,8 @@
                                 }
                             }
                             else{
-                                
-                                echo "No record is found due to an internal error.";
+                                //TODO: the message is not shown: show it in the taxi_reservatio_user.php page
+                                echo "No Record Found";
                             }
                         ?>                        
                         </table>

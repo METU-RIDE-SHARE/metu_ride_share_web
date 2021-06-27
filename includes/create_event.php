@@ -61,10 +61,10 @@ if($selected=="Ride"){
 }
 
 if ($success == true){
-	header('Location: ../userAccount.php?acknowledge=datasaved');
+	header('Location: ../events.php?acknowledge=datasaved');
 }
 else {
-	header('Location: ../userAccount.php?acknowledge=datanotsaved');
+	header('Location: ../events.php?acknowledge=datanotsaved');
 }
 
 }
