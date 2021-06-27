@@ -98,12 +98,16 @@
 
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">All Cars</a>
+                                <a class="nav-link" href="myCars.php">All Cars</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="myCars.php">My cars</a>
+                                <a class="nav-link active" aria-current="page" href="#">My Cars</a>
                             </li>
                         </ul>
+
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_car">
+                            Add car
+                        </button>
                     
                         <?php
                             // Connect to the database
@@ -114,28 +118,23 @@
                                 exit();
                             }
                             
+                            $current_user_id = (int) $_SESSION['currentUserID'];
+                            
                             $query = "  SELECT * FROM car
                                         INNER JOIN vehicle
                                         ON car.vehicle_id = vehicle.vehicle_id
-                                        INNER JOIN metu_users mu
-                                        ON car.user_from = mu.id; ";
+                                        WHERE car.user_from = '$current_user_id'; ";
                             $query_run = mysqli_query($connection, $query);
                         ?>
                         <table id="tableid" class="table table-bordered table-dark">
                             <thead>
                                 <tr style="color:orange";>
-                                    <th scope="col">Owner ID</th>
-                                    <th scope="col">Owner Name</th>
-                                    <th scope="col">Owner Surname</th>
-                                    <th scope="col">Owner Phone</th>
                                     <th scope="col">Vehicle ID</th>
                                     <th scope="col">Vehicle Model</th>
                                     <th scope="col">Vehicle Capacity</th>
                                     <th scope="col">Vehicle Color</th>
                                     <th scope="col">Plate No.</th>
-                                    <th scope="col">Details of User</th>
-                                    <th scope="col">Borrow</th>
-                                    
+                                    <th scope="col">license_number</th>
                                 </tr>
                             </thead>
                         <?php
@@ -144,21 +143,12 @@
                         ?>
                             <tbody>
                                 <tr>
-                                    <td> <?php echo $row['id']; ?> </td>
-                                    <td> <?php echo $row['first_name']; ?> </td>
-                                    <td> <?php echo $row['surname']; ?> </td>
-                                    <td> <?php echo $row['phone']; ?> </td>
                                     <td> <?php echo $row['vehicle_id']; ?> </td>
                                     <td> <?php echo $row['vehicle_model']; ?> </td>
                                     <td> <?php echo $row['vehicle_capacity']; ?> </td>
                                     <td> <?php echo $row['vehicle_color']; ?> </td>
                                     <td> <?php echo $row['license_plate_no']; ?> </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary show_user_btn"> Show User </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary borrow_btn"> Borrow </button>
-                                    </td>
+                                    <td> <?php echo $row['license_number']; ?> </td>
                                 </tr>
                             </tbody>
                         <?php       
@@ -181,37 +171,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
 <script>
     $(document).ready(function(){
-        $('.show_user_btn').on('click', function(){
-            $tr = $(this).closest('tr');
-                var data = $tr.children("td").map(function(){
-                    return $(this).text();
-                }).get();
+        
 
-                console.log(data);
-
-                var owner_id = data[0];
-                window.location.href = "./user_profile_noedit.php?user_id=" + owner_id;
-        });
-
-        $('.borrow_btn').on('click', function(){
-            $tr = $(this).closest('tr');
-                var data = $tr.children("td").map(function(){
-                    return $(this).text();
-                }).get();
-
-                console.log(data);
-
-                var car_id = data[4];
-                console.log(car_id);
-
-                $('#car_id').val(car_id);
+        $('.add_car').on('click', function(){
 
                 var php_var = "<?php echo $_SESSION['currentUserID']; ?>";
                 console.log("current user id: "+ php_var);
                 console.log(typeof php_var);
-
-                $('#user_from_id').val(php_var)
-                $('#create_borrow_modal').modal("show")
+                $('#add_car_user_from').val(php_var);
         });
 
 
