@@ -14,6 +14,14 @@
 
                 <div class="card">
                     <div class="card-body">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link" href="rideEvents.php">All Ride Events</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link  active" aria-current="page"  href="#">Ride Events Created by Me</a>
+                            </li>
+                        </ul>
                     
                         <?php
                             // Connect to the database

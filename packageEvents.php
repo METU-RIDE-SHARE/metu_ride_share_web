@@ -135,6 +135,36 @@
                 </div>
             </div>
         </div>
+
+
+
+
+        <div class="modal fade" id="create_request_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Drive an package Event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="./request.php"  method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                                <div class="form_group">
+                                    <label for="vehicle_id">Enter vehicle_id</label>
+                                    <input type="number" class="form-control" name = "vehicle_id" id="vehicle_id" placeholder="ie.1" >
+                                </div>
+                                <input type="hidden" name = "event_id" id="event_id" >
+                                <input type="hidden" name = "event_type" id="event_type" >
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary request_btn" name="create_request_btn">Save</button>
+                        </div>
+					</div>
+                </form>
+                </div>
+            </div>
+        </div>
         <!-- ############################################################################################################################################# -->
 
 		<div class="container">
@@ -197,6 +227,8 @@
 									<th scope="col">Car</th>
 									<th scope="col">Creator</th>
 									<th scope="col">Responsible User</th>
+                                    <th scope="col">Join Event</th>
+                                    <th scope="col">Event ID</th>
                                 </tr>
                             </thead>
                         <?php
@@ -213,15 +245,24 @@
 									<td> <?php echo $row['note']; ?> </td>
                                     <td> <?php echo $row['weight']; ?> </td>
                                     <td> <?php echo $row['content']; ?> </td>
+
 									<td> <div style="display: none;"><?php echo $row['car_id']; ?></div>
 									<button type="button" class="btn btn-primary show_vehicle_details_btn"> Show Car Details </button>
 									</td>
+
 									<td> <div style="display: none;"><?php echo $row['creator_id']; ?></div>
 									<button type="button" class="btn btn-primary show_creator_user_btn"> Show User </button>
 									</td>
+
 									<td> <div style="display: none;"><?php echo $row['responsible_user_id']; ?></div>
 									<button type="button" class="btn btn-primary show_responsible_user_btn"> Show User </button>
 									</td>
+
+                                    <td>
+                                    <button type="button" class="btn btn-primary create_request_btn">Request</button>		
+        							</td>
+
+                                    <td> <?php echo $row['event_id']; ?> </td>
 
                                 </tr>
                             </tbody>
@@ -289,8 +330,6 @@
 				var owner_id = data[8];
                 window.location.href = "./show_vehicle.php?vehicle_id=" + owner_id;
         });
-
-
     });
 	
 
@@ -308,6 +347,23 @@
 		$("#rideType").hide()
 		}
 	});
+
+    $('.create_request_btn').on('click', function(){
+                $tr = $(this).closest('tr');
+                var data = $tr.children("td").map(function(){
+                    return $(this).text();
+                }).get();
+
+                var str = data[12];
+                $('#event_id').val(data[12]);
+                $('#event_type').val('Package');
+                   
+                console.log(data);
+
+                $('#create_request_modal').modal('show');
+
+                
+        });
     </script>
 
 <?php

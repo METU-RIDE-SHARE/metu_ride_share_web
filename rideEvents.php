@@ -183,21 +183,24 @@
 				
 				<div class="card">
                     <div class="card-body">
-                        <!-- button type="button" class="btn btn-primary">Present Reservations</button -->
-
-                        <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_event">
                             Create Event
                         </button>
 						
-						<a href="myRideEvents.php"> <button type="button" name="my_ride_events" class="btn btn-primary">
-                            My Ride Events
-                        </button> </a>
                     </div>            
                 </div>
         
                 <div class="card">
                     <div class="card-body">
+
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">All Ride Events</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="myRideEvents.php">Ride Events Created by Me</a>
+                            </li>
+                        </ul>
                     
                         <?php
                             // Connect to the database
