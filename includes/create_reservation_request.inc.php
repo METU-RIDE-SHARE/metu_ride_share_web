@@ -22,7 +22,7 @@
                     ON rr.reservation_id=tr.id
                     WHERE rr.reservation_id = '$reservation_id'
                     AND rr.taxi_id = '$taxi_id';";
-        $query_run_check = mysqli_query($connection, $query_check);
+        $query_run_check = mysqli_query($connection, $query_check) or die(mysqli_error($connection));
                 
         if($query_run_check){
             $row = $query_run_check -> fetch_array(MYSQLI_ASSOC); 
@@ -30,6 +30,7 @@
                 $params = '&acknowledge=already_requested';
                 echo $params;
                 header("Location: ../taxi_reservation_taxi.php?$params");
+                exit();
             }
             echo 'inside query';
             

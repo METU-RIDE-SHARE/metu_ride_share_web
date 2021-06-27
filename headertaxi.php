@@ -12,4 +12,32 @@
 		<div class="container" style="background-color:black; margin-top:20px; margin-bottom:20px;">
 			<h1 style="color:white; text-align:center;"> METU RIDE SHARE </h1>
 		</div>
+
+    <nav class="navbar navbar-expand-lg navbar-light static-top" style="background-color:#00C0CE;">
+			<div class="container">
+				<!--<a class="navbar-brand" href="#">
+					<img src="pictures/logo.png" alt="">
+				</a>-->
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				  <span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarResponsive">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active">
+							<a class="nav-link" href="taxi_reservation_taxi.php">Home
+							</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link" href="taxi_reservation_taxi.php">Taxi Reservations</a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link" href="taxiAccount.php"><img src="pictures/person-circle.svg" class="img-fluid " alt=""></a>
+						</li>
+					</ul>
+					
+				</div>
+			</div>
+		</nav>
 </head>

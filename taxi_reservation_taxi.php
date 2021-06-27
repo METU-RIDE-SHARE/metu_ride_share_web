@@ -107,7 +107,7 @@
 
                             $query = "  SELECT tr.Id, tr.datetime, tr.location, tr.destination, tr.status
                                         FROM taxi_reservation tr
-                                        WHERE tr.status = 'Pending' AND datetime > '$current_date'
+                                        WHERE tr.status = 'Pending' 
                                         ORDER BY tr.datetime DESC;";
                             $query_run = mysqli_query($connection, $query);
                         ?>
@@ -164,17 +164,25 @@
                     <div class="card-body">
                     
                         <?php
+
+                            // Connect to the database
+                            $connection = new mysqli("localhost","root","","metu_ride_share");
+                            // Check connection
+                            if ($connection -> connect_errno) {
+                                echo "Failed to connect to MySQL: " . $connection -> connect_error;
+                                exit();
+                            }
                             
-                            //$current_taxi_user = $_SESSION['currrentTaxiUserID']; TODO
-                            $current_taxi_user = 1;
+                            $current_taxi_user = $_SESSION['currentUserID'];
+                            //$current_taxi_user = 1;
                         
                             $query = "  SELECT tr.Id, tr.datetime, tr.location, tr.destination, tr.status, rr.price, rr.status as request_status
                                         FROM taxi_reservation tr
                                         INNER JOIN reservation_request rr
                                         ON tr.id = rr.reservation_id
-                                        WHERE rr.taxi_id = $current_taxi_user'
+                                        WHERE rr.taxi_id = $current_taxi_user
                                         ;";
-                            $query_run = mysqli_query($connection, $query);
+                            $query_run = mysqli_query($connection, $query) or die(mysqli_error($connection));
                         ?>
                         <table id="tableid" class="table table-bordered table-dark">
                             <thead>
@@ -250,8 +258,10 @@
 
                 $('#reservation_id').val(data[0])
                 
-                //TODO: the current taxi user logged in 
-                $('#taxi_id').val(1);
+                var php_var = "<?php echo $_SESSION['currentUserID']; ?>";
+                console.log("php_var: "+php_var);
+                console.log(typeof php_var);
+                $('#taxi_id').val(php_var);
                 
             
         });
