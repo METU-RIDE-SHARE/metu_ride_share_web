@@ -22,37 +22,47 @@ if(isset($_POST["create_request_btn"]))
     $vehicle_id = $_POST['vehicle_id'];
     $event_id = $_POST["event_id"];
     $user_from_id = $_SESSION['currentUserId'];
-    echo("_".$event_id."_");
+    echo("_".$event_type."_".$selected."_".$vehicle_id."_".$event_id."_".$user_from_id);
 
     $sql;
     $sql_run;
+
     if($event_type=="Ride"){
-      $sql = "INSERT INTO request (`user_from_id`, `timestamp`, `event_id`, `req_status`, `requester_type`) VALUES ('$user_from_id', '2020-01-01 10:30', '$event_id', 'Pending', '$selected')";
-      $sql_run = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-    }else{
-      $sql = "INSERT INTO request (`user_from_id`, `timestamp`, `event_id`, `req_status`, `requester_type`) VALUES ('$user_from_id', '2020-01-01 10:30', '$event_id', 'Pending', 'Driver')";
+      if($selected == "Driver"){
+        echo "ride driver";
+        $sql = "INSERT INTO request (`user_from_id`, `timestamp`, `event_id`, `req_status`, `requester_type`, requester_car_id) VALUES ('$user_from_id', '2020-01-01 10:30', '$event_id', 'Pending', '$selected', '$vehicle_id')";
+        $sql_run = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+      }else if (($selected == "Passenger")){
+        echo "ride Passnger";
+        $sql = "INSERT INTO request (`user_from_id`, `timestamp`, `event_id`, `req_status`, `requester_type`) VALUES ('$user_from_id', '2020-01-01 10:30', '$event_id', 'Pending', '$selected')";
+        $sql_run = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+      }
+      
+    }else if($event_type=="Package"){ 
+      echo "package";
+      $sql = "INSERT INTO request (`user_from_id`, `timestamp`, `event_id`, `req_status`, `requester_type`, requester_car_id) VALUES ('$user_from_id', '2020-01-01 10:30', '$event_id', 'Pending', 'Driver', '$vehicle_id')";
       $sql_run = mysqli_query($conn, $sql) or die(mysqli_error($conn));
     }
     
     
     
 
-    if ($sql_run == true){
+    if ($sql_run){
       if ($event_type=="Ride"){
         header('Location: ./rideEvents.php?acknowledge=datasaved');
         echo "saved";
       }
-      else{
+      else if($event_type=="Package"){
         header('Location: ./packageEvents.php?acknowledge=datasaved');
         echo "saved";
       }
     }
-    else {
+    else  {
       if ($event_type=="Ride"){
         header('Location: ./rideEvents.php?acknowledge=datanotsaved');
         echo "not saved";
       }
-      else{
+      else if($event_type=="Package"){
         header('Location: ./packageEvents.php?acknowledge=datanotsaved');
         echo "NOT saved";
       }

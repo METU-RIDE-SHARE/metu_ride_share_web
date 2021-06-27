@@ -152,15 +152,14 @@
                                 <select name="requestType" class="form-select form-select-lg mb-3" id="requestType">
                                     <option>Select Type Of request</option>
                                     <option value="Driver">Driver</option>
-                                    <option value="Passanger">passanger</option>
+                                    <option value="Passenger">passenger</option>
                                 </select>
                                 <div id="driverType" style="display:none;">    
                                     <label for="vehicle_id">Enter vehicle_id</label>
                                     <input type="text" class="form-control" name = "vehicle_id" id="vehicle_id" placeholder="ie.1" >
-                                    
                                 </div>
                                 <input type="hidden" name = "event_id" id="event_id" >
-                                <input type="hidden" name = "event_type" id="even_type" >
+                                <input type="hidden" name = "event_type" id="event_type" >
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -216,8 +215,9 @@
 
                            // $query = "  SELECT * FROM package ";
 							$query = "  SELECT * 
-                                        FROM ride r, event e
-                                        WHERE r.eid = e.event_id
+                                        FROM ride r 
+                                        INNER join event e
+                                        ON r.eid = e.event_id
                                         ";
                             $query_run = mysqli_query($connection, $query);
 
@@ -237,6 +237,7 @@
 									<th scope="col">Creator</th>
 									<th scope="col">Responsible User</th>
                                     <th scope="col">Join Event</th>
+                                    <th scope="col">Event ID</th>
 
                                 </tr>
                             </thead>
@@ -263,9 +264,11 @@
 									<td> <div style="display: none;"><?php echo $row['responsible_user_id']; ?></div>
 									<button type="button" class="btn btn-primary show_responsible_user_btn"> Show User </button>
 									</td>
-                                    <td> <div style="display: none;"><?php echo $row['eid']; ?></div>
-                                    <button type="button" class="btn btn-primary create_request_btn"> Request</button>		
+                                    <td> 
+                                    <button type="button" class="btn btn-primary create_request_btn">Request</button>		
         							</td>
+
+                                    <td> <?php echo $row['event_id']; ?> </td>
                         
 
                                 </tr>
@@ -334,7 +337,10 @@
                 var data = $tr.children("td").map(function(){
                     return $(this).text();
                 }).get();
-                $('#event_id').val(data[11]);
+
+                var str = data[12];
+                var number = str.match(/(\d+)/);
+                $('#event_id').val(data[12]);
                 $('#event_type').val('Ride');
                    
                 console.log(data);
