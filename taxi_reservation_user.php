@@ -1,66 +1,6 @@
-<?php session_start(); ?>
-
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="taxi_reservation_user" content="width=device-width, initial-scale=1.0">
-        <title>taxi reservation for users</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css"> -->
-		
-		<!-- Navigation -->
-		<nav class="navbar navbar-expand-lg navbar-light static-top" style="background-color:#00C0CE;">
-			<div class="container">
-				<!--<a class="navbar-brand" href="#">
-					<img src="pictures/logo.png" alt="">
-				</a>-->
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-				  <span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarResponsive">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item active">
-							<a class="nav-link" href="main.html">Home
-							</a>
-						</li>
-						
-						
-						<li class="nav-item">
-							<a class="nav-link" href="events.php">All Events</a>
-						</li>
-						 
-						<li class="nav-item">
-							<a class="nav-link" href="packageEvents.php">Package Events</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="rideEvents.php">Ride Events</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="taxies.php">Taxies</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="taxi_reservation_user.php">Taxi Reservations</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="cars.php">Cars</a>
-						</li>
-						
-						<li class="nav-item">
-							<a class="nav-link" href="userAccount.php"><img src="pictures/person-circle.svg" class="img-fluid " alt=""></a>
-						</li>
-					</ul>
-					
-				</div>
-			</div>
-		</nav>
-		
-		<div class="container" style="background-color:black; margin-top:20px; margin-bottom:20px;">
-			<h1 style="color:white; text-align:center;"> METU RIDE SHARE </h1>
-		</div>
-	</head>
+<?php include_once 'header.php'?>
     <body>
+
 
         
         <!-- success modal -->
@@ -98,7 +38,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-danger" role="alert" id=error_message>
                         You data has NOT been saved.
                     </div>
                 </div>
@@ -188,7 +128,32 @@
             </div>
         </div>
         <!-- ############################################################################################################################################# -->
+        
+        <!-- Cancel TAXI RESERVATION (Bootstrap Modal) -->
+        <div class="modal fade" id="cancel_reservation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Taxi Reservation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="./includes/cancel_taxi_reservation.inc.php" method="POST">
+                    <div class="modal-body">
 
+                        <p> Do you want to cancel this reservation? </p>
+                        <!-- the id of the reservation which is hidden to the user -->
+                        <input type="hidden" name="cancel_reservation_id" id="cancel_reservation_id"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="submit" name="cancel_taxi_reservation_b"class="btn btn-danger">Yes</button>
+                    </div>
+                    
+                </form>
+                </div>
+            </div>
+        </div>
+        <!-- ############################################################################################################################################# -->
         <div class="container">
             <div class="jumbotrom">
 
@@ -225,7 +190,7 @@
                             //current data and time
                             $current_date = date('y-m-d h:i:s');
 
-                                
+                            //TODO: the data and also for changing them control in the script
                             // $query = "  SELECT tr.Id, tr.datetime, tr.location, tr.destination, tr.status
                             //             FROM taxi_reservation tr
                             //             INNER JOIN metu_users mu
@@ -267,19 +232,20 @@
                                     <td> <?php echo $row['datetime']; ?> </td>
                                     <td> <?php echo $row['status']; ?> </td>
                                     <td>
-                                        <button type="button" class="btn btn-primary edit_btn"> EDIT </button>
+                                        <button type="button" class="btn btn-success edit_btn"> Edit </button>
+                                        <button type="button" class="btn btn-danger cancel_reservation_btn"> Cancel </button>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary show_request_btn"> Requests </button>
                                     </td>
+
                                 </tr>
                             </tbody>
                         <?php       
                                 }
                             }
                             else{
-                                //TODO: the message is not shown: show it in the taxi_reservatio_user.php page
-                                echo "No Record Found";
+                                echo "No record is found due to an internal error.";
                             }
                         ?>                        
                         </table>
@@ -326,6 +292,24 @@
                 $('#dateTime').val(correct_format);
         });
 
+        $('.cancel_reservation_btn').on('click', function(){
+            $tr = $(this).closest('tr');
+                var data = $tr.children("td").map(function(){
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+                var current_status = data[4];
+                if (current_status.trim() == "Canceled"){
+                    $('#error_message').text("You have already canceled this reservation.");
+                    $('#error_modal').modal('show');
+                }else{
+                    $('#cancel_reservation_id').val(data[0])
+                    $('#cancel_reservation').modal('show');
+                }
+        });
+
         $('.show_request_btn').on('click', function(){
             $tr = $(this).closest('tr');
                 var data = $tr.children("td").map(function(){
@@ -346,13 +330,17 @@
 <?php
     $show_success_modal = false;
     $show_error_modal = false;
+    $show_error_have_request_modal = false;
     if(isset($_GET['acknowledge'])){
         if($_GET['acknowledge'] == "datasaved"){
             $show_success_modal = true;
         }
         else if ($_GET['acknowledge'] == "datanotsaved"){
             $show_error_modal = true;
-        } 
+        }elseif ($_GET['acknowledge'] == "have_requests") {
+            $show_error_have_request_modal = true;
+            
+        }
     } 
 ?>
 
@@ -367,7 +355,17 @@
 <?php if($show_error_modal){?>
     <script>  
         $(document).ready(function(){
-                $('#error_modal').modal('show'); 
+            $('#error_message').text("your data has not been saved because of error.");
+            $('#error_modal').modal('show'); 
+        }); 
+    </script>
+<?php }?>
+
+<?php if($show_error_have_request_modal){?>
+    <script>  
+        $(document).ready(function(){
+            $('#error_message').text("You cannot change the reservation because requests made for this reservation. you can cancel this reservation and create a new one.");
+            $('#error_modal').modal('show'); 
         }); 
     </script>
 <?php }?>

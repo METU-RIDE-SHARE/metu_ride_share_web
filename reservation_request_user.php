@@ -1,63 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="reservation_request_user" content="width=device-width, initial-scale=1.0">
-    <title>Reservatio Requests</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
-	
-	<!-- Navigation -->
-		<nav class="navbar navbar-expand-lg navbar-light static-top" style="background-color:#00C0CE;">
-			<div class="container">
-				<!--<a class="navbar-brand" href="#">
-					<img src="pictures/logo.png" alt="">
-				</a>-->
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-				  <span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarResponsive">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item active">
-							<a class="nav-link" href="main.html">Home
-							</a>
-						</li>
-						
-						
-						<li class="nav-item">
-							<a class="nav-link" href="events.php">All Events</a>
-						</li>
-						 
-						<li class="nav-item">
-							<a class="nav-link" href="packageEvents.php">Package Events</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="rideEvents.php">Ride Events</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="taxies.php">Taxies</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="taxi_reservation_user.php">Taxi Reservations</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="cars.php">Cars</a>
-						</li>
-						
-						<li class="nav-item">
-							<a class="nav-link" href="userAccount.php"><img src="pictures/person-circle.svg" class="img-fluid " alt=""></a>
-						</li>
-					</ul>
-					
-				</div>
-			</div>
-		</nav>
-		
-	<div class="container" style="background-color:black; margin-top:20px; margin-bottom:20px;">
-		<h1 style="color:white; text-align:center;"> METU RIDE SHARE </h1>
-	</div>
-</head>
+<?php include_once 'header.php'?>
+
 <body>
         <!-- success modal -->
         <!-- Modal -->
@@ -94,7 +36,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-danger" role="alert" id="error_message">
                         Your data has NOT been saved.
                     </div>
                 </div>
@@ -120,7 +62,7 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="status_radio_btn" value="Accepted" id="accept_rbtn">
                                 <label class="form-check-label" for="accept_rbtn">
-                                    Accepted
+                                    Accept
                                 </label>
                             </div>
 
@@ -189,7 +131,7 @@
                     <table id="tableid" class="table table-bordered table-dark">
                         <thead>
                             <tr>
-                                <!-- TODO: add a link to the taxi driver -->
+                            
                                 <th scope="col">Taxi ID</th> 
                                 <th scope="col">Taxi name</th>
                                 <th scope="col">Price</th>
@@ -221,8 +163,7 @@
                                 }
                             }
                             else{
-                                //TODO: the message is not shown: show it in the taxi_reservatio_user.php page
-                                echo "No Record Found";
+                                echo "No Record Found due to internal problem";
                             }
                         ?>                        
                     </table>
@@ -239,22 +180,27 @@
     $(document).ready(function(){
         $('.change_status_btn').on('click', function(){
 
-            // TODO: if the reservation is not accepted:
-            $('#change_status_modal').modal('show');
             $tr = $(this).closest('tr');
             var data = $tr.children("td").map(function(){
                 return $(this).text();
             }).get();
-
             console.log(data);
 
-            $('#taxi_id').val(data[0]);
-            var php_var = "<?php echo $reservation_id; ?>";
-            console.log("php_var: "+php_var);
-            console.log(typeof php_var);
-            $('#reservation_id').val(php_var);
-
-            //TODO: else: show the message that you cannot change this
+            var current_status = data[3];
+            console.log("-" + current_status.trim() + "-");
+            if(current_status.trim() == "Pending"){
+                console.log("this is pending");
+                $('#taxi_id').val(data[0]);
+                var php_var = "<?php echo $reservation_id; ?>";
+                console.log("php_var: "+php_var);
+                console.log(typeof php_var);
+                $('#reservation_id').val(php_var);
+                $('#change_status_modal').modal('show');
+            }
+            else{
+                $('#error_message').text('you have already assigned a status for this request! you cannot change it.');
+                $('#error_modal').modal('show');
+            }
             
         });
 
@@ -300,6 +246,7 @@
 <?php if($show_error_modal){?>
     <script>  
         $(document).ready(function(){
+                $('#error_message').text("You data has not been saved due to an internal error.");
                 $('#error_modal').modal('show'); 
         }); 
     </script>

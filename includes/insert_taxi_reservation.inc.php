@@ -1,4 +1,5 @@
 <?php
+    session_start();
     // Connect to the database
     $connection = new mysqli("localhost","root","","metu_ride_share");
 
@@ -12,7 +13,7 @@
         $departure = $_POST["departure"];
         $destination = $_POST["destination"];
         $date_time = $_POST["date_time"];
-        $creator_id = (int) $_SESSION["currentUser"];
+        $creator_id = (int) $_SESSION["currentUserID"];
         
         $query = "INSERT INTO taxi_reservation (`datetime`, `location`, `destination`, `creator_id`) VALUES ('$date_time', '$departure', '$destination',  '$creator_id');";
         $query_run = mysqli_query($connection, $query);
