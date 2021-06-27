@@ -101,7 +101,7 @@
                                 exit();
                             }
                         
-                            //current data and time TODO: check the current date
+                        
                             $current_date = date('y-m-d h:i:s');
 
                             $query = "  SELECT tr.Id, tr.datetime, tr.location, tr.destination, tr.status
@@ -147,8 +147,7 @@
                                 }
                             }
                             else{
-                                //TODO: the message is not shown: show it in the taxi_reservatio_user.php page
-                                echo "No Record Found";
+                                echo "No record is found due to an internal error.";
                             }
                         ?>                        
                         </table>
@@ -164,17 +163,15 @@
                     <div class="card-body">
                     
                         <?php
-                            //current data and time
-                            $current_date = date('y-m-d h:i:s');
+                            
                             //$current_taxi_user = $_SESSION['currrentTaxiUserID']; TODO
                             $current_taxi_user = 1;
-                            
-                            //TODO: the current date and time
+                        
                             $query = "  SELECT tr.Id, tr.datetime, tr.location, tr.destination, tr.status, rr.price, rr.status as request_status
                                         FROM taxi_reservation tr
                                         INNER JOIN reservation_request rr
                                         ON tr.id = rr.reservation_id
-                                        WHERE rr.taxi_id = $current_taxi_user AND datetime < '$current_date'
+                                        WHERE rr.taxi_id = $current_taxi_user'
                                         ;";
                             $query_run = mysqli_query($connection, $query);
                         ?>
@@ -215,8 +212,7 @@
                                 }
                             }
                             else{
-                                //TODO: the message is not shown: show it in the taxi_reservatio_user.php page
-                                echo "No Record Found";
+                                echo "No record is found due to an internal error.";
                             }
                         ?>                        
                         </table>
@@ -304,7 +300,7 @@
 <?php if($show_error_modal){?>
     <script>  
         $(document).ready(function(){
-                $('#error_message').text('your data has not been saved due a internal problem.');
+                $('#error_message').text('your data has not been saved due to an internal problem.');
                 $('#error_modal').modal('show'); 
         }); 
     </script>

@@ -121,8 +121,7 @@
                                 }
                             }
                             else{
-                                //TODO: the message is not shown
-                                echo "No Record Found";
+                                echo "No record is found due to internal error.";
                             }
                         ?>                        
                         </table>

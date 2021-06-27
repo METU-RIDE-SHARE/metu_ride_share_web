@@ -189,7 +189,32 @@
             </div>
         </div>
         <!-- ############################################################################################################################################# -->
+        
+        <!-- Cancel TAXI RESERVATION (Bootstrap Modal) -->
+        <div class="modal fade" id="cancel_reservation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Taxi Reservation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="./includes/cancel_taxi_reservation.inc.php" method="POST">
+                    <div class="modal-body">
 
+                        <p> Do you want to cancel this reservation? </p>
+                        <!-- the id of the reservation which is hidden to the user -->
+                        <input type="hidden" name="cancel_reservation_id" id="cancel_reservation_id"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="submit" name="cancel_taxi_reservation_b"class="btn btn-danger">Yes</button>
+                    </div>
+                    
+                </form>
+                </div>
+            </div>
+        </div>
+        <!-- ############################################################################################################################################# -->
         <div class="container">
             <div class="jumbotrom">
 
@@ -268,19 +293,20 @@
                                     <td> <?php echo $row['datetime']; ?> </td>
                                     <td> <?php echo $row['status']; ?> </td>
                                     <td>
-                                        <button type="button" class="btn btn-primary edit_btn"> EDIT </button>
+                                        <button type="button" class="btn btn-success edit_btn"> Edit </button>
+                                        <button type="button" class="btn btn-danger cancel_reservation_btn"> Cancel </button>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary show_request_btn"> Requests </button>
                                     </td>
+
                                 </tr>
                             </tbody>
                         <?php       
                                 }
                             }
                             else{
-                                //TODO: the message is not shown: show it in the taxi_reservatio_user.php page
-                                echo "No Record Found";
+                                echo "No record is found due to an internal error.";
                             }
                         ?>                        
                         </table>
@@ -325,6 +351,24 @@
         
                 console.log(correct_format);
                 $('#dateTime').val(correct_format);
+        });
+
+        $('.cancel_reservation_btn').on('click', function(){
+            $tr = $(this).closest('tr');
+                var data = $tr.children("td").map(function(){
+                    return $(this).text();
+                }).get();
+
+                console.log(data);
+
+                var current_status = data[4];
+                if (current_status.trim() == "Canceled"){
+                    $('#error_message').text("You have already canceled this reservation.");
+                    $('#error_modal').modal('show');
+                }else{
+                    $('#cancel_reservation_id').val(data[0])
+                    $('#cancel_reservation').modal('show');
+                }
         });
 
         $('.show_request_btn').on('click', function(){

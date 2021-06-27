@@ -122,8 +122,7 @@
                                 }
                             }
                             else{
-                                //TODO: the message is not shown: show it in the taxi_reservatio_user.php page
-                                echo "No Record Found";
+                                echo "No record is found due to an internal error.";
                             }
                         ?>                        
                         </table>

@@ -9,7 +9,6 @@
     }
 
 
-    // TODO: this should have been done in a transaction
     if(isset($_POST["create_reservation_request_b"])){
         
         $taxi_id = $_POST["taxi_id"];

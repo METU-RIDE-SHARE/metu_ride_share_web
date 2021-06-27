@@ -32,10 +32,12 @@
                 $params = '&acknowledge=have_requests';
                 echo $params;
                 header("Location: ../taxi_reservation_user.php?$params");
+                exit();
             }
         }
         else{
             echo "ERORR in the DATABASE QUERY";
+            exit();
         }
 
 
