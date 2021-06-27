@@ -139,7 +139,7 @@
         <!-- ############################################################################################################################################# -->
 
 
-        <div class="modal fade" id="request" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="create_request_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -148,32 +148,24 @@
                 </div>
                 <form action="./request.php"  method="POST">
                     <div class="modal-body">
-                    <div class="form-group">
-							<select name="requestType" class="form-select form-select-lg mb-3" id="requestType">
-								<option>Select Type Of request</option>
-								<option value="Driver">Driver</option>
-								<option value="Passanger">passanger</option>
-							</select>
-							<div id="driverType" style="display:none;">    
-								<label for="vehicle_id">Enter vehicle_id</label>
-								<input type="text" class="form-control" name = "vehicle_id" id="vehicle_id" placeholder="ie.1" >
-								
-							</div>
-                            <input type="hidden" name = "event_id" id="event_id" >
-
-                    
-					</div>
-                        
-						
-						
-						
-                        
-                   
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary request_btn" name="create_request_btn">Save</button>
-                    </div>
-					
+                        <div class="form-group">
+                                <select name="requestType" class="form-select form-select-lg mb-3" id="requestType">
+                                    <option>Select Type Of request</option>
+                                    <option value="Driver">Driver</option>
+                                    <option value="Passanger">passanger</option>
+                                </select>
+                                <div id="driverType" style="display:none;">    
+                                    <label for="vehicle_id">Enter vehicle_id</label>
+                                    <input type="text" class="form-control" name = "vehicle_id" id="vehicle_id" placeholder="ie.1" >
+                                    
+                                </div>
+                                <input type="hidden" name = "event_id" id="event_id" >
+                                <input type="hidden" name = "event_type" id="even_type" >
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary request_btn" name="create_request_btn">Save</button>
+                        </div>
 					</div>
                 </form>
                 </div>
@@ -181,12 +173,6 @@
         </div>
 
         <!-- ############################################################################################################################################# -->
-
-
-
-
-
-
 
 
 		<div class="container">
@@ -278,7 +264,7 @@
 									<button type="button" class="btn btn-primary show_responsible_user_btn"> Show User </button>
 									</td>
                                     <td> <div style="display: none;"><?php echo $row['eid']; ?></div>
-                                    <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#request"> Request</button>		
+                                    <button type="button" class="btn btn-primary create_request_btn"> Request</button>		
         							</td>
                         
 
@@ -343,14 +329,18 @@
     });
 
     $(document).ready(function(){
-        $('.request_btn').on('click', function(){
-            $tr = $(this).closest('tr');
+        $('.create_request_btn').on('click', function(){
+                $tr = $(this).closest('tr');
                 var data = $tr.children("td").map(function(){
                     return $(this).text();
                 }).get();
                 $('#event_id').val(data[11]);
+                $('#event_type').val('Ride');
                    
                 console.log(data);
+
+                $('#create_request_modal').modal('show');
+
                 
         });
 
