@@ -135,6 +135,45 @@
         </div>
         <!-- ############################################################################################################################################# -->
 
+
+
+        <!-- ############################################################################################################################################# -->
+
+
+        <div class="modal fade" id="create_request_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Event Join Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="./request.php"  method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                                <select name="requestType" class="form-select form-select-lg mb-3" id="requestType">
+                                    <option>Select Type Of request</option>
+                                    <option value="Driver">Driver</option>
+                                    <option value="Passenger">passenger</option>
+                                </select>
+                                <div id="driverType" style="display:none;">    
+                                    <label for="vehicle_id">Enter vehicle_id</label>
+                                    <input type="text" class="form-control" name = "vehicle_id" id="vehicle_id" placeholder="ie.1" >
+                                </div>
+                                <input type="hidden" name = "event_id" id="event_id" >
+                                <input type="hidden" name = "event_type" id="event_type" >
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary request_btn" name="create_request_btn">Save</button>
+                        </div>
+					</div>
+                </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ############################################################################################################################################# -->
+
 		<div class="container">
 			<div class="jumbotrom">
 
@@ -176,10 +215,12 @@
 
                            // $query = "  SELECT * FROM package ";
 							$query = "  SELECT * 
-                                        FROM ride r, event e
-                                        WHERE r.eid = e.event_id
+                                        FROM ride r 
+                                        INNER join event e
+                                        ON r.eid = e.event_id
                                         ";
                             $query_run = mysqli_query($connection, $query);
+
                         ?>
                         <table id="tableid" class="table table-bordered table-dark">
                             <thead>
@@ -195,6 +236,8 @@
 									<th scope="col">Vehicle Details</th>
 									<th scope="col">Creator</th>
 									<th scope="col">Responsible User</th>
+                                    <th scope="col">Join Event</th>
+                                    <th scope="col">Event ID</th>
                                 </tr>
                             </thead>
                         <?php
@@ -220,6 +263,11 @@
 									<td> <div style="display: none;"><?php echo $row['responsible_user_id']; ?></div>
 									<button type="button" class="btn btn-primary show_responsible_user_btn"> Show User </button>
 									</td>
+                                    <td> 
+                                    <button type="button" class="btn btn-primary create_request_btn">Request</button>		
+        							</td>
+
+                                    <td> <?php echo $row['event_id']; ?> </td>
 
                                 </tr>
                             </tbody>
@@ -237,12 +285,34 @@
             </div>
         </div>
 
-        
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
 
-	<script>
+<script>
     $(document).ready(function(){
         $('.show_creator_user_btn').on('click', function(){
             $tr = $(this).closest('tr');
@@ -255,12 +325,39 @@
 				var owner_id = data[9];
                 window.location.href = "./user_profile_noedit.php?user_id=" + owner_id;
         });
+		
+		$('.show_vehicle_details_btn').on('click', function(){
+            $tr = $(this).closest('tr');
+                var data = $tr.children("td").map(function(){
+                    return $(this).text();
+                }).get();
 
+                console.log(data);
 
-    });
-	
-	$(document).ready(function(){
-        $('.show_responsible_user_btn').on('click', function(){
+				var owner_id = data[8];
+                window.location.href = "./show_vehicle.php?vehicle_id=" + owner_id;
+
+        });
+		
+		$('.create_request_btn').on('click', function(){
+                $tr = $(this).closest('tr');
+                var data = $tr.children("td").map(function(){
+                    return $(this).text();
+                }).get();
+
+                var str = data[12];
+                var number = str.match(/(\d+)/);
+                $('#event_id').val(data[12]);
+                $('#event_type').val('Ride');
+                   
+                console.log(data);
+
+                $('#create_request_modal').modal('show');
+
+                
+        });
+		
+		$('.show_responsible_user_btn').on('click', function(){
             $tr = $(this).closest('tr');
                 var data = $tr.children("td").map(function(){
                     return $(this).text();
@@ -271,41 +368,27 @@
 				var owner_id = data[10];
                 window.location.href = "./user_profile_noedit.php?user_id=" + owner_id;
         });
+		
+		$('#eventType').on('change',function(){
+			if( $(this).val()==="Ride"){
+			$("#rideType").show()
+			$("#packageType").hide()
+			}
+			else if ($(this).val()==="Package"){
+			$("#rideType").hide()
+			$("#packageType").show()
+			}
+			else{
+			$("#packageType").hide()
+			$("#rideType").hide()
+			}
+		});
 
-
+		$('#requestType').on('change',function(){
+			if( $(this).val()==="Driver"){
+			$("#driverType").show()
+		}
     });
-	
-	$(document).ready(function(){
-        $('.show_vehicle_details_btn').on('click', function(){
-            $tr = $(this).closest('tr');
-                var data = $tr.children("td").map(function(){
-                    return $(this).text();
-                }).get();
-
-                console.log(data);
-
-				var owner_id = data[8];
-                window.location.href = "./show_vehicle.php?vehicle_id=" + owner_id;
-        });
-
-
-    });
-
-	$('#eventType').on('change',function(){
-		if( $(this).val()==="Ride"){
-		$("#rideType").show()
-		$("#packageType").hide()
-		}
-		else if ($(this).val()==="Package"){
-		$("#rideType").hide()
-		$("#packageType").show()
-		}
-		else{
-		$("#packageType").hide()
-		$("#rideType").hide()
-		}
-	});
-    </script>
 
 <?php
     $show_success_modal = false;
