@@ -287,7 +287,6 @@
                 
                 var htmlLocalDate = data[3];
                 var correct_format = htmlLocalDate.substring(1 ,htmlLocalDate.length-1).replace(" ", "T");
-        
                 console.log(correct_format);
                 $('#dateTime').val(correct_format);
         });

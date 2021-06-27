@@ -49,36 +49,31 @@
         </div>
 
 <!-- ################################################################################################################################## -->
-        <!-- Borrow car (Bootstrap Modal) -->
-        <div class="modal fade" id="create_borrow_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- Cancel TAXI RESERVATION (Bootstrap Modal) -->
+        <div class="modal fade" id="cancel_borrow_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Borrow request</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Taxi Reservation</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="./includes/create_borrow.inc.php" method="POST">
+                <form action="./includes/cancel_borrow.inc.php" method="POST">
                     <div class="modal-body">
-                        
-                        <div class="form_group">
-                            <label class="form-label">From Time</label>
-                            <input type="datetime-local" name="from_time" id="from_time" class="form-control" placeholder="Enter the the date and time">
-                            <!-- div id="date_time_help" class="form-text">Enter the data and time in this format: "yyyy-mm-dd hh:mm".</div-->
-                        </div>
-                        
-                        
-                        <div class="form_group">
-                            <label class="form-label">To Time</label>
-                            <input type="datetime-local" name="to_time" id="to_time" class="form-control" placeholder="Enter the the date and time">
-                            <!-- div id="date_time_help" class="form-text">Enter the data and time in this format: "yyyy-mm-dd hh:mm".</div-->
-                        </div>
+
+                        <p> Do you want to cancel this borrow? </p>
                         
                         <input type="hidden" name="user_from_id" id="user_from_id"/>
-                        <input type="hidden" name="car_id" id="car_id"/>
+
+                        <!-- the id of the taxi_id which is hidden to the user -->
+                        <input type="hidden" name="car_id" id="car_id" />
+
+                        <!-- date and times-->
+                        <input type="hidden" name="from_time" id="from_time">
+                        <input type="hidden" name="to_time" id="to_time">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" name="create_borrow_b"class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="submit" name="cancel_borrow_b"class="btn btn-danger">Yes</button>
                     </div>
                     
                 </form>
@@ -90,12 +85,22 @@
             <div class="jumbotrom">
 
                 <div class="card">
-                    <h2> All Cars</h2>
+                    <h2> Borrows</h2>
                 </div>
 
                 <div class="card">
                     <div class="card-body">
-                    
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link" href="borrow.php">Borrowed From Me</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">My borrow Requests</a>
+                            </li>
+                        </ul>
+
+
+                        <!-- ******************************************************************************************************* -->
                         <?php
                             // Connect to the database
                             $connection = new mysqli("localhost","root","","metu_ride_share");
@@ -104,29 +109,30 @@
                                 echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
                                 exit();
                             }
-                            
-                            $query = "  SELECT * FROM car
+                            $current_user_id = (int) $_SESSION['currentUserID'];
+
+                            $query = "  SELECT car.vehicle_id, vehicle.vehicle_model, vehicle.license_plate_no, vehicle.vehicle_color, 
+                                                borrow.from_time, borrow.to_time, car.user_from, borrow.status
+                                        FROM borrow
+                                        INNER JOIN car
+                                        ON car.vehicle_id = borrow.car_id
                                         INNER JOIN vehicle
-                                        ON car.vehicle_id = vehicle.vehicle_id
-                                        INNER JOIN metu_users mu
-                                        ON car.user_from = mu.id; ";
+                                        ON vehicle.vehicle_id = car.vehicle_id
+                                        WHERE borrow.user_from_id = '$current_user_id'; ";
                             $query_run = mysqli_query($connection, $query);
                         ?>
                         <table id="tableid" class="table table-bordered table-dark">
                             <thead>
                                 <tr style="color:orange";>
-                                    <th scope="col">Owner ID</th>
-                                    <th scope="col">Owner Name</th>
-                                    <th scope="col">Owner Surname</th>
-                                    <th scope="col">Owner Phone</th>
-                                    <th scope="col">Vehicle ID</th>
+                                    <th scope="col">car ID</th>
                                     <th scope="col">Vehicle Model</th>
-                                    <th scope="col">Vehicle Capacity</th>
+                                    <th scope="col">Plate Number</th>
                                     <th scope="col">Vehicle Color</th>
-                                    <th scope="col">Plate No.</th>
-                                    <th scope="col">Details of User</th>
-                                    <th scope="col">Borrow</th>
-                                    
+                                    <th scope="col">Requested From Time</th>
+                                    <th scope="col">Requested To Time</th>
+                                    <th scope="col">Show Owner</th>
+                                    <th scope="col">Request Status</th>
+                                    <th scope="col">Cancel Borrow</th>
                                 </tr>
                             </thead>
                         <?php
@@ -135,21 +141,20 @@
                         ?>
                             <tbody>
                                 <tr>
-                                    <td> <?php echo $row['id']; ?> </td>
-                                    <td> <?php echo $row['first_name']; ?> </td>
-                                    <td> <?php echo $row['surname']; ?> </td>
-                                    <td> <?php echo $row['phone']; ?> </td>
                                     <td> <?php echo $row['vehicle_id']; ?> </td>
                                     <td> <?php echo $row['vehicle_model']; ?> </td>
-                                    <td> <?php echo $row['vehicle_capacity']; ?> </td>
-                                    <td> <?php echo $row['vehicle_color']; ?> </td>
                                     <td> <?php echo $row['license_plate_no']; ?> </td>
-                                    <td>
+                                    <td> <?php echo $row['vehicle_color']; ?> </td>
+                                    <td> <?php echo $row['from_time']; ?> </td>
+                                    <td> <?php echo $row['to_time']; ?> </td>
+                                    <td> <div style="display: none;"><?php echo $row['user_from']; ?></div>
                                         <button type="button" class="btn btn-primary show_user_btn"> Show User </button>
                                     </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary borrow_btn"> Borrow </button>
+                                    <td> <?php echo $row['status']; ?> </td>
+                                    <td> 
+                                        <button type="button" class="btn btn-primary cancel_btn"> Cancel </button>
                                     </td>
+                                    
                                 </tr>
                             </tbody>
                         <?php       
@@ -160,7 +165,10 @@
                             }
                         ?>                        
                         </table>
-                        
+                        <!-- *********************************************************************************************************************** -->
+
+
+
                     </div>
                 </div>
             </div>
@@ -180,11 +188,11 @@
 
                 console.log(data);
 
-                var owner_id = data[0];
+                var owner_id = data[6];
                 window.location.href = "./user_profile_noedit.php?user_id=" + owner_id;
         });
 
-        $('.borrow_btn').on('click', function(){
+        $('.cancel_btn').on('click', function(){
             $tr = $(this).closest('tr');
                 var data = $tr.children("td").map(function(){
                     return $(this).text();
@@ -192,65 +200,30 @@
 
                 console.log(data);
 
-                var car_id = data[4];
-                console.log(car_id);
+                var current_status = data[7];
+                if (current_status.trim() == "Canceled"){
+                    $('#error_message').text("You have already canceled this reservation.");
+                    $('#error_modal').modal('show');
+                }else{
+                    $('#user_from_id').val(data[6]);
+                    $('#car_id').val(data[0]);
+                    
+                    var htmlLocalDate = data[4];
+                    var correct_format = htmlLocalDate.substring(1 ,htmlLocalDate.length-1).replace(" ", "T");
+                    console.log(correct_format);
+                    $('#from_time').val(correct_format);
 
-                $('#car_id').val(car_id);
+                    var htmlLocalDate = data[5];
+                    var correct_format = htmlLocalDate.substring(1 ,htmlLocalDate.length-1).replace(" ", "T");
+                    console.log(correct_format);
+                    $('#to_time').val(correct_format);
 
-                var php_var = "<?php echo $_SESSION['currentUserID']; ?>";
-                console.log("current user id: "+ php_var);
-                console.log(typeof php_var);
-
-                $('#user_from_id').val(php_var)
-                $('#create_borrow_modal').modal("show")
+                    $('#cancel_borrow_modal').modal('show');
+                }
         });
-
-
     });
-    </script>
 
-<?php
-    $show_success_modal = false;
-    $show_error_modal = false;
-    $show_error_same_borrow_modal = false;
-    if(isset($_GET['acknowledge'])){
-        if($_GET['acknowledge'] == "datasaved"){
-            $show_success_modal = true;
-        }
-        else if ($_GET['acknowledge'] == "datanotsaved"){
-            $show_error_modal = true;
-        }elseif ($_GET['acknowledge'] == "same_borrow") {
-            $show_error_have_request_modal = true;
-            
-        }
-    } 
-?>
+</script>
 
-
-<?php if($show_success_modal){?>
-    <script>  
-        $(document).ready(function(){
-                $('#success_modal').modal('show'); 
-        }); 
-    </script>
-<?php }?>
-
-<?php if($show_error_modal){?>
-    <script>  
-        $(document).ready(function(){
-            $('#error_message').text("your data has not been saved because of an internal error.");
-            $('#error_modal').modal('show'); 
-        }); 
-    </script>
-<?php }?>
-
-<?php if($show_error_same_borrow_modal){?>
-    <script>  
-        $(document).ready(function(){
-            $('#error_message').text("you have created the same borrow request");
-            $('#error_modal').modal('show'); 
-        }); 
-    </script>
-<?php }?>
 </body>
 </html>

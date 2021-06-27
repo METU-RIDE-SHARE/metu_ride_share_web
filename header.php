@@ -32,13 +32,16 @@
 							<a class="nav-link" href="rideEvents.php">Ride Events</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="taxies.php">Taxies</a>
-						</li>
-						<li class="nav-item">
 							<a class="nav-link" href="taxi_reservation_user.php">Taxi Reservations</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="cars.php">Cars</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="borrow.php">Borrow</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="taxies.php">Taxies</a>
 						</li>
 						
 						<li class="nav-item">
